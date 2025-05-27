@@ -310,7 +310,7 @@
                     <h3 class="text-xl font-semibold text-subtitle-accent mb-3">計畫語音摘要</h3>
                     <audio controls src="Beyond_Cats_and_Dogs__Unmasking_the_Astonishingly_Diverse_World_of_Veterinary_Medicine.mp3" class="w-full">
                     </audio>
-                    <p class="text-sm text-gray-500 mt-2">（以Podcast方式介紹本自主學習計畫）</p>
+                    <p class="text-sm text-gray-500 mt-2">（提醒：請將 'placeholder-audio.mp3' 替換為實際的語音檔案連結。）</p>
                 </div>
 
                 <h2 class="text-2xl md:text-3xl font-semibold text-title-accent mb-6 border-b border-title-accent pb-3">計畫總覽</h2>
@@ -443,10 +443,10 @@
                 <div class="mb-4 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
                     <select id="monthFilter" class="p-2 border border-gray-600 rounded-md bg-gray-700 text-gray-200 focus:ring-amber-500 focus:border-amber-500 flex-grow sm:flex-grow-0">
                         <option value="">所有月份</option>
-                        <option value="2025-09">2025年9月</option>
-                        <option value="2025-10">2025年10月</option>
-                        <option value="2025-11">2025年11月</option>
-                        <option value="2025-12">2025年12月</option>
+                        <option value="2025/09">2025年9月</option>
+                        <option value="2025/10">2025年10月</option>
+                        <option value="2025/11">2025年11月</option>
+                        <option value="2025/12">2025年12月</option>
                     </select>
                     <input type="search" id="taskSearch" placeholder="搜尋任務內容或目標..." class="p-2 border border-gray-600 rounded-md bg-gray-700 text-gray-200 focus:ring-amber-500 focus:border-amber-500 flex-grow">
                 </div>
@@ -483,8 +483,8 @@
                             <div class="infographic-stat-label">個月學習期程</div>
                         </div>
                         <div class="infographic-stat-card">
-                            <div class="infographic-stat-number">6</div>
-                            <div class="infographic-stat-label">大核心學習面向</div>
+                            <div class="infographic-stat-number">7</div>
+                            <div class="infographic-stat-label">大核心學習面向 (含資訊圖表)</div>
                         </div>
                         <div class="infographic-stat-card">
                             <div class="infographic-stat-number">5-7</div>
@@ -952,7 +952,7 @@
             updateProgressOverview();
             setupEventListeners();
             renderMockQuiz();
-            renderInfographicAssessmentChart();
+            // renderInfographicAssessmentChart(); // Deferred to activateTab
             
             const initialTab = window.location.hash ? window.location.hash.substring(1) : 'home';
             activateTab(initialTab);
@@ -1023,10 +1023,10 @@
             
             document.querySelectorAll(`.nav-link[data-tab="${tabName}"]`).forEach(link => link.classList.add('active'));
             
-            if (tabName === 'infographic') { // Ensure chart renders when tab is active
-                 if (!infographicAssessmentChartInstance) { // Render only if not already rendered
+            if (tabName === 'infographic') { 
+                 if (!infographicAssessmentChartInstance && document.getElementById('infographicAssessmentChart')) { 
                     renderInfographicAssessmentChart();
-                } else { // If already rendered, ensure it's updated/resized if necessary
+                } else if (infographicAssessmentChartInstance) { 
                     infographicAssessmentChartInstance.resize();
                 }
             }
@@ -1196,6 +1196,15 @@
                             titleColor: '#e5e7eb',
                             bodyColor: '#d1d5db',
                             callbacks: {
+                                title: function(tooltipItems) {
+                                    const item = tooltipItems[0];
+                                    let label = item.chart.data.labels[item.dataIndex];
+                                    if (Array.isArray(label)) {
+                                      return label.join(' ');
+                                    } else {
+                                      return label;
+                                    }
+                                },
                                 label: function(context) {
                                     return `${context.dataset.label}: ${context.formattedValue}%`;
                                 }
@@ -1263,19 +1272,20 @@
         
         function renderAssessmentResultChart(labels, data, canvasId) {
             const ctx = document.getElementById(canvasId).getContext('2d');
-            let chartInstance;
-            if (canvasId === 'assessmentResultChart' && assessmentResultChartInstance) {
-                assessmentResultChartInstance.destroy();
-                chartInstance = assessmentResultChartInstance;
-            } else if (canvasId === 'infographicAssessmentChart' && infographicAssessmentChartInstance) {
-                infographicAssessmentChartInstance.destroy();
-                chartInstance = infographicAssessmentChartInstance;
+            let chartInstanceToUpdate;
+
+            if (canvasId === 'assessmentResultChart') {
+                if (assessmentResultChartInstance) assessmentResultChartInstance.destroy();
+                chartInstanceToUpdate = assessmentResultChartInstance;
+            } else if (canvasId === 'infographicAssessmentChart') {
+                if (infographicAssessmentChartInstance) infographicAssessmentChartInstance.destroy();
+                chartInstanceToUpdate = infographicAssessmentChartInstance;
             }
 
-            chartInstance = new Chart(ctx, {
+            const newChartInstance = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: processChartLabels(labels, (canvasId === 'infographicAssessmentChart' ? 10 : 16)), // Shorter labels for infographic
+                    labels: processChartLabels(labels, (canvasId === 'infographicAssessmentChart' ? 10 : 16)),
                     datasets: [{
                         label: '各主題答對率 (%)',
                         data: data,
@@ -1328,13 +1338,14 @@
                     }
                 }
             });
-            if (canvasId === 'assessmentResultChart') assessmentResultChartInstance = chartInstance;
-            if (canvasId === 'infographicAssessmentChart') infographicAssessmentChartInstance = chartInstance;
+            if (canvasId === 'assessmentResultChart') assessmentResultChartInstance = newChartInstance;
+            if (canvasId === 'infographicAssessmentChart') infographicAssessmentChartInstance = newChartInstance;
         }
 
         function renderInfographicAssessmentChart() {
+             if (!document.getElementById('infographicAssessmentChart')) return; // Guard clause
             const infographicLabels = ['獸醫學概論', '倫理與法規', '物種多樣性', '研究技能', '健康一體'];
-            const infographicData = [85, 78, 92, 75, 88]; // Sample data
+            const infographicData = [85, 78, 92, 75, 88]; 
             renderAssessmentResultChart(infographicLabels, infographicData, 'infographicAssessmentChart');
         }
         
@@ -1362,15 +1373,15 @@
         function renderLearningContentTable(sortColumn = 'date', sortDirection = 'asc') {
             currentSort = { column: sortColumn, direction: sortDirection };
             const tableBody = document.getElementById('learningContentTableBody');
-            const monthFilter = document.getElementById('monthFilter').value;
+            const monthFilterValue = document.getElementById('monthFilter').value; // Corrected variable name
             const searchTerm = document.getElementById('taskSearch').value.toLowerCase();
             const noResultsMessage = document.getElementById('noResultsMessage');
             
             tableBody.innerHTML = '';
             let tasksToDisplay = getAllLearningTasks();
 
-            if (monthFilter) {
-                tasksToDisplay = tasksToDisplay.filter(task => task.date.startsWith(monthFilter));
+            if (monthFilterValue) { // Corrected variable name
+                tasksToDisplay = tasksToDisplay.filter(task => task.date.startsWith(monthFilterValue)); // Corrected variable name
             }
             if (searchTerm) {
                 tasksToDisplay = tasksToDisplay.filter(task => 
