@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自主學習計畫：獸醫無界 (黑灰黃主題 - 整合版)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', 'Inter', sans-serif;
+            overscroll-behavior-y: contain;
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .nav-link { transition: all 0.3s ease; }
+        
+        .dark body { background-color: #000000; color: #d1d5db; } 
+        .dark header, .dark footer { background-color: #111827; } 
+        .dark .bg-card { background-color: #1f2937; } 
+        .dark .border-card { border-color: #374151; } 
+        
+        .dark .text-header { color: #f9fafb; } 
+        .dark .text-subheader { color: #e5e7eb; } 
+        .dark .text-content { color: #9ca3af; } 
+        
+        .dark .text-accent { color: #f59e0b; } 
+        .dark .border-accent { border-color: #f59e0b; } 
+
+        .dark .nav-link.active, .dark .nav-link:hover {
+            background-color: #f59e0b; 
+            color: #111827; 
+        }
+        .dark .nav-link { color: #d1d5db; } 
+
+        .dark .button-primary { background-color: #f59e0b; color: #111827; } 
+        .dark .button-primary:hover { background-color: #d97706; } 
+        .dark .button-secondary { background-color: #374151; color: #e5e7eb; } 
+        .dark .button-secondary:hover { background-color: #4b5563; } 
+        
+        .dark input[type="text"], .dark input[type="search"], .dark select {
+            background-color: #374151; 
+            border-color: #4b5563; 
+            color: #e5e7eb; 
+        }
+        .dark input[type="text"]:focus, .dark input[type="search"]:focus, .dark select:focus {
+            border-color: #f59e0b; 
+            box-shadow: 0 0 0 2px #f59e0b33;
+        }
+        .dark input[type="checkbox"]:checked {
+            background-color: #f59e0b; 
+            border-color: #f59e0b;
+        }
+        .dark input[type="radio"] {
+            accent-color: #f59e0b;
+        }
+
+        .dark table th { background-color: #1f2937; border-bottom-color: #4b5563; } 
+        .dark table td { border-color: #374151; } 
+        .dark table tr:nth-child(even) { background-color: #17202c; } 
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; 
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; 
+            max-height: 400px; 
+        }
+        @media (min-width: 768px) { 
+            .chart-container {
+                height: 350px;
+                max-width: 700px;
+            }
+        }
+        #progressChartContainer, #assessmentChartContainer, #infographicAssessmentChartContainer {
+             height: auto; min-height: 300px; max-height: 450px;
+        }
+        .task-day-content { display: none; }
+        .task-day-content.expanded { display: block; }
+        .progress-bar-bg { background-color: #374151; } 
+        .progress-bar-fill { background-color: #f59e0b; transition: width 0.5s ease-in-out; } 
+
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #1f2937; border-radius: 10px; } 
+        ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 10px; } 
+        ::-webkit-scrollbar-thumb:hover { background: #6b7280; } 
+        
+        #mobileMenu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        #mobileMenu.open {
+            transform: translateX(0);
+        }
+        .dark #mobileMenu .fixed { background-color: #111827; } 
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        h1,h2,h3,h4,h5,h6 { font-weight: 600; }
+        h2 { font-size: 1.75rem; margin-bottom: 0.75rem; }
+        h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        h4 { font-size: 1.25rem; margin-bottom: 0.25rem; }
+        p { margin-bottom: 1rem; line-height: 1.75; }
+        ul { list-style-position: inside; margin-bottom: 1rem; }
+        li { margin-bottom: 0.5rem; }
+
+        .dark .text-title-accent { color: #facc15; } 
+        .dark .text-subtitle-accent { color: #fde047; } 
+        .dark .text-content-accent { color: #f59e0b; } 
+        .dark .border-title-accent { border-color: #facc15; } 
+        .dark code { color: #fde047; } 
+
+        .dark .prose-headings\:text-accent h2,
+        .dark .prose-headings\:text-accent h3,
+        .dark .prose-headings\:text-accent h4 {
+             color: #facc15; 
+        }
+        .dark .prose-invert .prose-p\:leading-relaxed p { color: #d1d5db; } 
+        .dark .prose-invert ul > li::before { background-color: #f59e0b; } 
+
+        /* Infographic specific styles adapted for dark theme */
+        .dark .infographic-stat-card {
+            background-color: #1f2937; /* gray-800 */
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3), 0 4px 6px -2px rgba(0,0,0,0.25);
+            text-align: center;
+        }
+        .dark .infographic-stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #f59e0b; /* amber-500 */
+        }
+        .dark .infographic-stat-label {
+            font-size: 1rem;
+            color: #9ca3af; /* gray-400 */
+            margin-top: 0.5rem;
+        }
+        .dark .infographic-section-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: #facc15; /* yellow-400 */
+        }
+        .dark .infographic-subsection-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #fde047; /* yellow-300 */
+            border-bottom: 2px solid #f59e0b; /* amber-500 */
+            padding-bottom: 0.5rem;
+        }
+        .dark .infographic-content-card {
+            background-color: #1f2937; /* gray-800 */
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3), 0 2px 4px -1px rgba(0,0,0,0.26);
+        }
+        .dark .infographic-timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+        .dark .infographic-timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: #f59e0b; /* amber-500 */
+            transform: translateX(-50%);
+        }
+        .dark .infographic-timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            width: calc(50% - 2rem);
+        }
+        .dark .infographic-timeline-item:nth-child(odd) {
+            float: left;
+            clear: right;
+            transform: translateX(-2rem);
+            text-align: right;
+        }
+        .dark .infographic-timeline-item:nth-child(even) {
+            float: right;
+            clear: left;
+            transform: translateX(2rem);
+            text-align: left;
+        }
+        .dark .infographic-timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #111827; /* Match body background */
+            border: 4px solid #fde047; /* yellow-300 */
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        .dark .infographic-timeline-item:nth-child(odd)::after { right: -30px; }
+        .dark .infographic-timeline-item:nth-child(even)::after { left: -30px; }
+        .dark .infographic-timeline-content {
+            background-color: #374151; /* gray-700 */
+            color: #d1d5db; /* gray-300 */
+            padding: 1rem;
+            border-radius: 0.375rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3), 0 2px 4px -1px rgba(0,0,0,0.26);
+        }
+        .dark .infographic-timeline-month {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #fde047; /* yellow-300 */
+            margin-bottom: 0.5rem;
+        }
+        .dark .infographic-timeline::after { 
+            content: ""; display: table; clear: both;
+        }
+         @media (max-width: 767px) {
+            .dark .infographic-timeline::before { left: 20px; }
+            .dark .infographic-timeline-item {
+                width: calc(100% - 40px); float: none !important; clear: both !important;
+                transform: none !important; text-align: left !important; margin-left: 40px; margin-bottom: 2rem;
+            }
+            .dark .infographic-timeline-item:nth-child(odd), .dark .infographic-timeline-item:nth-child(even) {
+                transform: none !important; text-align: left !important;
+            }
+            .dark .infographic-timeline-item::after { left: -30px; right: auto; }
+        }
+        .dark .audio-player-container {
+            background-color: #1f2937; /* gray-800 */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .dark .audio-player-container audio {
+            width: 100%;
+        }
+        .dark .audio-player-container p {
+            color: #9ca3af; /* gray-400 */
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+    </style>
+    <!-- Visualization & Content Choices:
+        - 首頁: Audio player placeholder. Textual content.
+        - 學習規畫: Hierarchical navigation, Progress Tracking (JS + localStorage), Progress Visualization (Chart.js).
+        - 學習評量: Mock Quiz (HTML forms + JS), Quiz Results (Chart.js).
+        - 學習內容清單: Interactive HTML table (JS for sorting/filtering).
+        - 資訊圖表: Recreated key infographic elements (stat cards, timeline, Chart.js chart) adapted to dark theme.
+        - 心得反思: Textual content.
+        - 參考資料: Formatted list.
+        - Justification: Methods chosen for interactivity, clarity, and educational purpose.
+        - Library/Method: Tailwind CSS, Vanilla JS, Chart.js (CDN).
+        -->
+    </head>
+<body class="dark">
+
+    <header class="bg-gray-900 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold text-title-accent">自主學習計畫：獸醫無界</h1>
+            <nav class="hidden md:flex space-x-1">
+                <a href="#home" data-tab="home" class="nav-link px-3 py-2 rounded-md text-sm font-medium">首頁</a>
+                <a href="#plan" data-tab="plan" class="nav-link px-3 py-2 rounded-md text-sm font-medium">學習規畫</a>
+                <a href="#assessment" data-tab="assessment" class="nav-link px-3 py-2 rounded-md text-sm font-medium">學習評量</a>
+                <a href="#content-list" data-tab="content-list" class="nav-link px-3 py-2 rounded-md text-sm font-medium">學習內容清單</a>
+                <a href="#infographic" data-tab="infographic" class="nav-link px-3 py-2 rounded-md text-sm font-medium">資訊圖表</a>
+                <a href="#reflection" data-tab="reflection" class="nav-link px-3 py-2 rounded-md text-sm font-medium">心得反思</a>
+                <a href="#references" data-tab="references" class="nav-link px-3 py-2 rounded-md text-sm font-medium">參考資料</a>
+            </nav>
+            <div class="md:hidden">
+                <button id="mobileMenuButton" class="text-gray-300 hover:text-amber-500 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div id="mobileMenu" class="fixed inset-0 flex z-40 md:hidden bg-black bg-opacity-25 backdrop-blur-sm">
+        <div class="fixed top-0 left-0 h-full w-64 bg-gray-900 shadow-xl p-4 overflow-y-auto no-scrollbar">
+            <button id="closeMobileMenuButton" class="absolute top-4 right-4 text-gray-400 hover:text-amber-500">
+                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <nav class="mt-12 flex flex-col space-y-2">
+                <a href="#home" data-tab="home" class="nav-link mobile-nav-link block px-3 py-2 rounded-md text-base font-medium">首頁</a>
+                <a href="#plan" data-tab="plan" class="nav-link mobile-nav-link block px-3 py-2 rounded-md text-base font-medium">學習規畫</a>
+                <a href="#assessment" data-tab="assessment" class="nav-link mobile-nav-link block px-3 py-2 rounded-md text-base font-medium">學習評量</a>
+                <a href="#content-list" data-tab="content-list" class="nav-link mobile-nav-link block px-3 py-2 rounded-md text-base font-medium">學習內容清單</a>
+                <a href="#infographic" data-tab="infographic" class="nav-link mobile-nav-link block px-3 py-2 rounded-md text-base font-medium">資訊圖表</a>
+                <a href="#reflection" data-tab="reflection" class="nav-link mobile-nav-link block px-3 py-2 rounded-md text-base font-medium">心得反思</a>
+                <a href="#references" data-tab="references" class="nav-link mobile-nav-link block px-3 py-2 rounded-md text-base font-medium">參考資料</a>
+            </nav>
+        </div>
+    </div>
+
+    <main class="container mx-auto p-4 md:p-6 flex-grow">
+        <div id="home" class="tab-content">
+            <div class="bg-card shadow-lg rounded-lg p-6 md:p-8">
+                <div class="audio-player-container mb-8">
+                    <h3 class="text-xl font-semibold text-subtitle-accent mb-3">計畫語音摘要</h3>
+                    <audio controls src="placeholder-audio.mp3" class="w-full">
+                        您的瀏覽器不支援音訊播放。
+                    </audio>
+                    <p class="text-sm text-gray-500 mt-2">（提醒：請將 'placeholder-audio.mp3' 替換為實際的語音檔案連結。）</p>
+                </div>
+
+                <h2 class="text-2xl md:text-3xl font-semibold text-title-accent mb-6 border-b border-title-accent pb-3">計畫總覽</h2>
+                <p class="text-gray-300 mb-6 text-lg">歡迎來到「獸醫無界：高中生探索獸醫學在多元領域的影響力」自主學習計畫。本計畫旨在引導您深入了解獸醫學的廣闊天地，從伴侶動物照護到公共衛生，再到野生動物保育等多元領域。透過為期四個月的系統性學習，您將不僅拓展專業知識，更將培養自主學習、批判思考與問題解決等關鍵能力。此互動式計畫將協助您追蹤學習進度，並為您的大學申請之路奠定堅實基礎。</p>
+
+                <section class="mb-8">
+                    <h3 class="text-xl font-semibold text-subtitle-accent mb-3">研究主題名稱</h3>
+                    <p class="text-gray-300">獸醫無界：高中生探索獸醫學在多元領域的影響力 (Beyond the Clinic: A High Schooler's Exploration of Veterinary Medicine's Diverse Impact)</p>
+                </section>
+
+                <section class="mb-8">
+                    <h3 class="text-xl font-semibold text-subtitle-accent mb-3">選擇本研究主題的原因與動機</h3>
+                    <ul class="list-disc list-inside text-gray-300 space-y-2">
+                        <li><strong>源於熱愛，啟於探索：</strong> 對動物世界的濃厚好奇心與關懷，以及對獸醫學的嚮往。</li>
+                        <li><strong>拓寬視野，深化認知：</strong> 渴望了解獸醫師在社會中的多元角色。</li>
+                        <li><strong>連結未來，奠定基石：</strong> 為未來獸醫專業學習與職業發展建立宏觀視野。</li>
+                        <li><strong>彌補認知，普及價值：</strong> 整理並呈現獸醫專業在不同領域的價值。</li>
+                    </ul>
+                </section>
+
+                <section class="mb-8">
+                    <h3 class="text-xl font-semibold text-subtitle-accent mb-3">期望能達成的目標</h3>
+                     <ul class="list-disc list-inside text-gray-300 space-y-2">
+                        <li><strong>知識廣度的拓展：</strong> 掌握至少5-7個獸醫學專業領域知識。</li>
+                        <li><strong>核心能力的培養：</strong> 提升學術研究、自主學習、時間管理等關鍵技能。</li>
+                        <li><strong>職涯方向的探索：</strong> 更清晰認識自身興趣與專長。</li>
+                        <li><strong>專業詞彙的積累：</strong> 學習並運用中英文核心專業詞彙。</li>
+                        <li><strong>實務認知的深化：</strong> 間接體驗獸醫實務工作的多樣性。</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3 class="text-xl font-semibold text-subtitle-accent mb-3">完成研究後，期待能得到的收穫</h3>
+                    <ul class="list-disc list-inside text-gray-300 space-y-2">
+                        <li><strong>強化大學申請競爭力：</strong> 展現熱忱、學術潛力與專業理解。</li>
+                        <li><strong>建立宏觀的專業視角：</strong> 深化對「健康一體 (One Health)」理念的體悟。</li>
+                        <li><strong>增強學術自信心：</strong> 驗證學習能力與研究潛能。</li>
+                        <li><strong>奠定先修知識基礎：</strong> 為大學獸醫課程提供支持。</li>
+                        <li><strong>具體學習成果的呈現：</strong> 完成此互動式網頁計畫。</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+
+        <div id="plan" class="tab-content">
+             <div class="bg-card shadow-lg rounded-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-title-accent mb-6 border-b border-title-accent pb-3">學習規畫</h2>
+                <p class="text-gray-300 mb-6 text-lg">本學習規畫詳細列出了為期四個月的自主學習進程，從2025年9月1日至2025年12月31日。您可以依月份、週次、乃至每日來查看學習目標與任務。每個每日任務下方都設有進度追蹤勾選框，您的進度將會自動保存在您的瀏覽器中。本區塊也提供了整體進度概覽與視覺化圖表，助您掌握學習節奏。</p>
+
+                <div id="progressOverview" class="mb-8 p-4 bg-gray-900 rounded-lg">
+                    <h3 class="text-xl font-semibold text-subtitle-accent mb-3">進度總覽</h3>
+                    <div class="mb-2">
+                        <span class="text-gray-300">總體完成度: </span><span id="totalCompletionRate" class="font-bold text-content-accent">0%</span>
+                        <div class="w-full progress-bar-bg rounded-full h-2.5 mt-1">
+                            <div id="totalProgressBar" class="progress-bar-fill h-2.5 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div id="monthlyCompletionRates" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4"></div>
+                    <div class="chart-container mx-auto mt-6" id="progressChartContainer">
+                        <canvas id="studyProgressChart"></canvas>
+                    </div>
+                     <button id="exportProgressBtn" class="mt-6 button-secondary px-4 py-2 rounded-md text-sm font-medium">匯出進度報告 (CSV)</button>
+                </div>
+
+                <div id="studyPlanContainer" class="space-y-6">
+                </div>
+            </div>
+        </div>
+
+        <div id="assessment" class="tab-content">
+            <div class="bg-card shadow-lg rounded-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-title-accent mb-6 border-b border-title-accent pb-3">學習評量</h2>
+                <p class="text-gray-300 mb-6 text-lg">為了有效檢視學習成果，本計畫在每個月結束時安排一次綜合測驗。每份測驗包含120道選擇題，內容緊扣當月學習任務。完成測驗後，您將能看到即時的成績回饋、圖表化的結果分析，以及針對性的學習建議。這不僅有助於鞏固知識，更能讓您清晰地了解自己的強項與待加強之處。</p>
+
+                <section class="mb-8">
+                    <h3 class="text-xl font-semibold text-subtitle-accent mb-3">每月測驗說明</h3>
+                    <ul class="list-disc list-inside text-gray-300 space-y-2">
+                        <li><strong>測驗形式：</strong> 每月一次線上綜合測驗，120題選擇題。</li>
+                        <li><strong>測驗內容來源：</strong> 嚴格依據當月「每日自主學習任務」內容設計。</li>
+                        <li><strong>測驗目的：</strong> 強化記憶、檢視盲點、量化學習成效。</li>
+                    </ul>
+                </section>
+
+                <section id="mockQuizSection" class="mb-8 p-4 bg-gray-900 rounded-lg">
+                    <h3 class="text-xl font-semibold text-subtitle-accent mb-3">第一個月模擬測驗 (範例)</h3>
+                    <p class="text-gray-400 mb-4">此為一個簡短的模擬測驗，以展示評量功能。實際每月測驗將包含120題。</p>
+                    <form id="mockQuizForm" class="space-y-4">
+                    </form>
+                    <button id="submitQuizBtn" type="button" class="mt-6 button-primary px-4 py-2 rounded-md text-sm font-medium">提交測驗</button>
+                    <div id="quizResult" class="mt-6 hidden">
+                        <h4 class="text-lg font-semibold text-subtitle-accent">測驗結果</h4>
+                        <p id="quizScore" class="text-gray-300"></p>
+                        <div class="chart-container mx-auto mt-4" id="assessmentChartContainer">
+                            <canvas id="assessmentResultChart"></canvas>
+                        </div>
+                        <div id="quizAnalysis" class="mt-4 text-gray-300"></div>
+                    </div>
+                </section>
+
+                <section>
+                    <h3 class="text-xl font-semibold text-subtitle-accent mb-3">每月評量表現摘要表 (範例)</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-700">
+                            <thead class="bg-gray-800">
+                                <tr>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">月份</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">測驗日期</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">整體得分 (%)</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">主題一 (%)</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">主題二 (%)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-gray-900 divide-y divide-gray-750">
+                                <tr><td class="px-4 py-2 whitespace-nowrap text-sm text-gray-300">第一個月</td><td class="px-4 py-2 whitespace-nowrap text-sm text-gray-300">2025/09/30 (預計)</td><td class="px-4 py-2 whitespace-nowrap text-sm text-gray-300">-</td><td class="px-4 py-2 whitespace-nowrap text-sm text-gray-300">-</td><td class="px-4 py-2 whitespace-nowrap text-sm text-gray-300">-</td></tr>
+                                <tr><td class="px-4 py-2 whitespace-nowrap text-sm text-gray-300">第二個月</td><td class="px-4 py-2 whitespace-nowrap text-sm text-gray-300">2025/10/31 (預計)</td><td class="px-4 py-2 whitespace-nowrap text-sm text-gray-300">-</td><td class="px-4 py-2 whitespace-nowrap text-sm text-gray-300">-</td><td class="px-4 py-2 whitespace-nowrap text-sm text-gray-300">-</td></tr>
+                                <tr><td class="px-4 py-2 whitespace-nowrap text-sm text-gray-300">第三個月</td><td class="px-4 py-2 whitespace-nowrap text-sm text-gray-300">2025/11/30 (預計)</td><td class="px-4 py-2 whitespace-nowrap text-sm text-gray-300">-</td><td class="px-4 py-2 whitespace-nowrap text-sm text-gray-300">-</td><td class="px-4 py-2 whitespace-nowrap text-sm text-gray-300">-</td></tr>
+                                <tr><td class="px-4 py-2 whitespace-nowrap text-sm text-gray-300">第四個月</td><td class="px-4 py-2 whitespace-nowrap text-sm text-gray-300">2025/12/31 (預計)</td><td class="px-4 py-2 whitespace-nowrap text-sm text-gray-300">-</td><td class="px-4 py-2 whitespace-nowrap text-sm text-gray-300">-</td><td class="px-4 py-2 whitespace-nowrap text-sm text-gray-300">-</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <div id="content-list" class="tab-content">
+            <div class="bg-card shadow-lg rounded-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-title-accent mb-6 border-b border-title-accent pb-3">學習內容清單</h2>
+                <p class="text-gray-300 mb-6 text-lg">此處彙整了本自主學習計畫四個月內每一天的學習任務內容與對應的學習目標。您可以利用下方的篩選和排序功能，快速查閱每日進度與學習方向。這份清單如同一張學習地圖，助您清晰掌握整個學習旅程的結構與脈絡。</p>
+
+                <div class="mb-4 flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+                    <select id="monthFilter" class="p-2 border border-gray-600 rounded-md bg-gray-700 text-gray-200 focus:ring-amber-500 focus:border-amber-500 flex-grow sm:flex-grow-0">
+                        <option value="">所有月份</option>
+                        <option value="2025-09">2025年9月</option>
+                        <option value="2025-10">2025年10月</option>
+                        <option value="2025-11">2025年11月</option>
+                        <option value="2025-12">2025年12月</option>
+                    </select>
+                    <input type="search" id="taskSearch" placeholder="搜尋任務內容或目標..." class="p-2 border border-gray-600 rounded-md bg-gray-700 text-gray-200 focus:ring-amber-500 focus:border-amber-500 flex-grow">
+                </div>
+
+                <div class="overflow-x-auto shadow-md rounded-lg">
+                    <table class="min-w-full divide-y divide-gray-700">
+                        <thead class="bg-gray-800">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider cursor-pointer" data-sort="date">日期 ⇅</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider cursor-pointer" data-sort="task">學習任務內容 ⇅</th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider cursor-pointer" data-sort="goal">學習目標 ⇅</th>
+                            </tr>
+                        </thead>
+                        <tbody id="learningContentTableBody" class="bg-gray-900 divide-y divide-gray-750">
+                        </tbody>
+                    </table>
+                </div>
+                 <p id="noResultsMessage" class="text-center text-gray-400 mt-4 hidden">找不到符合條件的任務。</p>
+            </div>
+        </div>
+        
+        <div id="infographic" class="tab-content">
+            <div class="bg-card shadow-lg rounded-lg p-6 md:p-8">
+                <header class="text-center pt-8 pb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-title-accent mb-4">自主學習計畫：獸醫無界 - 資訊圖表摘要</h2>
+                    <p class="text-lg text-gray-400">視覺化呈現計畫核心內容</p>
+                </header>
+
+                <section class="mb-12">
+                    <h3 class="infographic-section-title">計畫核心總覽</h3>
+                    <div class="grid md:grid-cols-3 gap-6 mb-10">
+                        <div class="infographic-stat-card">
+                            <div class="infographic-stat-number">4</div>
+                            <div class="infographic-stat-label">個月學習期程</div>
+                        </div>
+                        <div class="infographic-stat-card">
+                            <div class="infographic-stat-number">6</div>
+                            <div class="infographic-stat-label">大核心學習面向</div>
+                        </div>
+                        <div class="infographic-stat-card">
+                            <div class="infographic-stat-number">5-7</div>
+                            <div class="infographic-stat-label">個專業領域知識目標</div>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="infographic-content-card">
+                            <h4 class="infographic-subsection-title">研究動機</h4>
+                            <ul class="list-disc list-inside space-y-2 text-gray-400 pl-4">
+                                <li>源於對動物的熱愛與探索慾。</li>
+                                <li>渴望拓寬視野，深化對獸醫多元角色的認知。</li>
+                                <li>為未來獸醫專業學習奠定堅實基礎。</li>
+                            </ul>
+                        </div>
+                        <div class="infographic-content-card">
+                            <h4 class="infographic-subsection-title">期望目標</h4>
+                            <ul class="list-disc list-inside space-y-2 text-gray-400 pl-4">
+                                <li>拓展獸醫學專業領域知識廣度。</li>
+                                <li>培養學術研究與自主學習等核心能力。</li>
+                                <li>探索個人職涯方向與興趣專長。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="mb-12">
+                    <h3 class="infographic-section-title">四個月學習藍圖</h3>
+                    <p class="text-center text-gray-400 mb-10">本計畫橫跨四個月，每個月份聚焦特定主題，循序漸進探索獸醫學的廣闊領域。</p>
+                    <div class="infographic-timeline">
+                        <div class="infographic-timeline-item">
+                            <div class="infographic-timeline-content">
+                                <h5 class="infographic-timeline-month">第一個月 (09月)</h5>
+                                <p class="text-sm"><strong>主題：</strong>獸醫學概論與倫理基礎</p>
+                            </div>
+                        </div>
+                        <div class="infographic-timeline-item">
+                            <div class="infographic-timeline-content">
+                                <h5 class="infographic-timeline-month">第二個月 (10月)</h5>
+                                <p class="text-sm"><strong>主題：</strong>伴侶動物醫學與臨床實務</p>
+                            </div>
+                        </div>
+                        <div class="infographic-timeline-item">
+                            <div class="infographic-timeline-content">
+                                <h5 class="infographic-timeline-month">第三個月 (11月)</h5>
+                                <p class="text-sm"><strong>主題：</strong>經濟、野生動物與公衛獸醫</p>
+                            </div>
+                        </div>
+                        <div class="infographic-timeline-item">
+                            <div class="infographic-timeline-content">
+                                <h5 class="infographic-timeline-month">第四個月 (12月)</h5>
+                                <p class="text-sm"><strong>主題：</strong>特殊領域、研究與未來展望</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="mb-12">
+                    <h3 class="infographic-section-title">學習成效評量 (範例)</h3>
+                    <div class="infographic-content-card">
+                        <h4 class="infographic-subsection-title text-center">第一個月各主題掌握度 (%)</h4>
+                        <div class="chart-container mt-4" id="infographicAssessmentChartContainer">
+                            <canvas id="infographicAssessmentChart"></canvas>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2 text-center">此圖表為範例，展示評量後可能呈現的分析。</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h3 class="infographic-section-title">心得反思重點</h3>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="infographic-content-card">
+                            <h4 class="font-semibold text-lg mb-2 text-amber-400">關鍵發現</h4>
+                            <p class="text-sm text-gray-400">獸醫專業的多元性、「健康一體」的重要性。</p>
+                        </div>
+                        <div class="infographic-content-card">
+                            <h4 class="font-semibold text-lg mb-2 text-amber-400">個人成長</h4>
+                            <p class="text-sm text-gray-400">知識結構重塑、研究與思辨能力提升。</p>
+                        </div>
+                        <div class="infographic-content-card">
+                            <h4 class="font-semibold text-lg mb-2 text-amber-400">未來展望</h4>
+                            <p class="text-sm text-gray-400">堅定從醫初心、拓展專業視野。</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <div id="reflection" class="tab-content">
+             <div class="bg-card shadow-lg rounded-lg p-6 md:p-8 prose-headings:text-accent prose-invert max-w-none">
+                <h2 class="text-2xl md:text-3xl font-semibold text-title-accent mb-6 border-b border-title-accent pb-3">心得反思</h2>
+                <p class="text-gray-300 mb-6 text-lg">這部分是您在完成整個自主學習計畫後，對個人學習歷程、關鍵發現、技能成長以及未來展望的深刻反思。這不僅是對過去四個月努力的總結，更是對未來獸醫之路思考的結晶。透過文字，您可以系統地梳理所學，並展現您對獸醫專業的熱情與洞察。</p>
+                <article class="text-gray-300 prose-p:leading-relaxed">
+                    <h4 class="text-subtitle-accent">一、前言：重探初心，啟航獸醫無界之旅</h4>
+                    <p>本自主學習計畫「獸醫無界：高中生探索獸醫學在多元領域的影響力」，始於對動物的純粹熱愛，以及一份渴望突破傳統獸醫印象、全面認知此專業的強烈動機。在計畫啟動之初，我對獸醫師的理解多半停留在伴侶動物的臨床診療。然而，透過為期四個月系統性的探索，我對獸醫學的認知經歷了翻天覆地的轉變，其廣度與深度遠超乎我最初的想像。本篇反思旨在梳理此學習歷程中的關鍵發現、個人成長、以及對未來獸醫之路的深刻體悟。</p>
+                    <h4 class="text-subtitle-accent">二、關鍵發現：獸醫專業的多元宇宙與「健康一體」的宏大敘事</h4>
+                    <p>回顧四個月的學習，最令我震撼的莫過於獸醫專業的「無所不在」。從第一個月對獸醫學史與倫理的追溯，到「健康一體 (One Health)」概念的引入，我逐漸意識到獸醫師的角色早已超越物種的界線，深刻地鑲嵌於人類健康、環境永續的宏大框架之中。</p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li><strong>超越貓狗的多元角色：</strong> 第二個月對伴侶動物醫學的研習雖然鞏固了我對臨床的興趣，但第三個月對經濟動物、公共衛生獸醫學及野生動物醫學的探索，則徹底打開了我的視野。我了解到，獸醫師不僅是豬牛羊禽的健康守護者，更是食品安全鏈條上不可或缺的一環。</li>
+                        <li><strong>「健康一體」的深刻體現：</strong> 「健康一體」不再是一個抽象名詞，而是貫穿整個學習計畫的核心脈絡。動物健康、人類健康與環境健康三者密不可分。</li>
+                    </ul>
+                    <h4 class="text-subtitle-accent">三、個人學習旅程與技能成長：從迷茫到自信的蛻變</h4>
+                     <ul class="list-disc pl-5 space-y-1">
+                        <li><strong>知識結構的重塑：</strong> 從對專業術語的陌生到初步理解研究論文摘要，知識體系得以建立。</li>
+                        <li><strong>研究與思辨能力的提升：</strong> 資訊搜集、篩選、整合與批判性評估能力得到顯著提升。</li>
+                        <li><strong>時間管理與自主性的強化：</strong> 學會拆解目標，利用進度追蹤檢視執行，主動解決困難。</li>
+                    </ul>
+                    <h4 class="text-subtitle-accent">四、對未來志向的影響：堅定信念，拓展可能</h4>
+                     <ul class="list-disc pl-5 space-y-1">
+                        <li><strong>堅定從醫初心：</strong> 對臨床工作的嚮往更加確認。</li>
+                        <li><strong>拓展專業視野：</strong> 公共衛生、野生動物醫學、獸醫研究等領域也深具吸引力。</li>
+                        <li><strong>為大學學習奠基：</strong> 積累的基礎知識與自主學習能力將成為大學學習的助力。</li>
+                    </ul>
+                    <h4 class="text-subtitle-accent">五、結語：「獸醫無界」的真諦與持續探索的承諾</h4>
+                    <p>「獸醫無界」是我對獸醫專業最深刻的體悟。完成計畫並非終點，而是新起點。我將懷抱宏觀認知與堅定熱忱，繼續探索，期許未來成為兼具醫術與人文關懷的優秀獸醫師，為「健康一體」貢獻己力。</p>
+                </article>
+            </div>
+        </div>
+
+        <div id="references" class="tab-content">
+            <div class="bg-card shadow-lg rounded-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-title-accent mb-6 border-b border-title-accent pb-3">參考資料</h2>
+                <p class="text-gray-300 mb-6 text-lg">本頁面彙整了在自主學習計畫過程中建議參考的各類資源。良好的學術習慣包括詳細記錄並正確引用所有參考資料。在尋找資料時，請優先考慮中文學術文獻，並確保來源的可靠性與公開取用性。以下提供參考資料的分類與引用範例，您應在學習過程中逐步填充此清單。</p>
+
+                <section class="mb-6">
+                    <h3 class="text-xl font-semibold text-subtitle-accent mb-3">彙整格式指引</h3>
+                    <p class="text-gray-300">建議按資料類型分類，並依作者姓氏或參考時間排序。</p>
+                </section>
+
+                <section class="mb-6">
+                    <h3 class="text-xl font-semibold text-subtitle-accent mb-3">學生應記錄的引用資訊範例</h3>
+                    <ul class="list-disc list-inside text-gray-300 space-y-3">
+                        <li><strong>學術期刊文章:</strong> 作者姓名 (發表年份)。文章標題。期刊名稱，卷數(期數)，頁碼範圍。DOI 或 網址。<br><em>範例：王小明、陳大華 (2023)。台灣地區犬隻心絲蟲感染率之五年回溯性研究。台灣獸醫學雜誌，49(1)，1-10。 <a href="#" class="text-content-accent hover:underline">https://doi.org/xxxxxx</a></em></li>
+                        <li><strong>專書或書籍章節:</strong> 作者或編者姓名 (出版年份)。書名 (版次)。出版地：出版商。</li>
+                        <li><strong>政府或機構報告:</strong> 機構名稱 (年份)。報告標題 (報告編號，若有)。網址。取用日期。</li>
+                        <li><strong>專業組織網站/網頁:</strong> 組織名稱 (網頁發布或更新年份，若有)。網頁標題。網址。取用日期。</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3 class="text-xl font-semibold text-subtitle-accent mb-3">建議尋找的資料來源類型</h3>
+                    <ul class="list-disc list-inside text-gray-300 space-y-2">
+                        <li>國內大學獸醫學院/系所</li>
+                        <li>政府相關部門</li>
+                        <li>國內外獸醫專業學會/協會</li>
+                        <li>學術期刊資料庫</li>
+                        <li>國際組織 (如：WOAH, FAO, WHO)</li>
+                    </ul>
+                    <p class="mt-4 text-gray-400 italic">(本頁面將由學習者在執行計畫過程中，根據每日學習任務所參考的具體資料逐步填充與完善。)</p>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 text-center p-4 text-sm text-gray-400">
+        <p>&copy; 2025 自主學習計畫成果。保留一切權利。</p>
+    </footer>
+
+    <script>
+        const studyData = {
+            months: [
+                {
+                    name: "第一個月：獸醫學概論與倫理基礎 (2025年9月)",
+                    id: "month1",
+                    overallGoal: "建立對獸醫學發展歷史、核心範疇、基本價值觀以及不同物種照護原則的初步認識。理解獸醫師應承擔的社會責任與必須遵循的基本職業倫理規範。熟悉本自主學習計畫的學習節奏、資源運用方式及進度追蹤工具的使用。",
+                    weeks: [
+                        {
+                            name: "Week 1: The World of Veterinary Medicine - An Overview (獸醫學世界概覽)",
+                            id: "m1w1",
+                            days: [
+                                { date: "2025/09/01", dayOfWeek: "星期一", title: "何謂獸醫學？", task: "閱讀至少2篇關於獸醫學定義、歷史演變及主要分支領域的入門文章（優先選擇中文資料）。撰寫一篇約500字的摘要，概述獸醫學的核心目標、社會角色及其對人類社會的重要性。", vocab: "`Veterinary` (adj. - 關於動物疾病、傷害與治療的), `Zoonosis` (n. - 人畜共通傳染病)", id:"m1w1d1" },
+                                { date: "2025/09/02", dayOfWeek: "星期二", title: "獸醫師誓詞與職業道德規範", task: "查找並仔細閱讀台灣獸醫師誓詞及相關職業道德規範條文。比較其與美國獸醫協會（AVMA）的誓詞或倫理準則（可尋找中文翻譯或重點摘要）。深入思考並記錄下至少三個獸醫師核心倫理原則及其在實務中的意義。", vocab: "`Ethics` (n. - 倫理；道德規範), `Welfare` (n. - 福祉；健康幸福)", id:"m1w1d2" },
+                                { date: "2025/09/03", dayOfWeek: "星期三", title: "不同動物，不同需求", task: "初步了解伴侶動物（如犬、貓）、經濟動物（如豬、牛、禽）、野生動物、實驗動物的分類標準與主要特性。選擇其中一類動物，查找其基本的生理需求（如食性、環境）與常見的健康照護考量概覽資料。", vocab: "`Companion animal` (n. - 伴侶動物), `Livestock` (n. - 家畜；牲畜)", id:"m1w1d3" },
+                                { date: "2025/09/04", dayOfWeek: "星期四", title: "實作技能 - 科學主題的有效線上研究", task: "學習如何有效運用學術搜尋引擎（如Google Scholar, PubMed Central，可先查找中文使用教學）。學習辨識可靠的資訊來源（例如：大學官方網站、政府研究機構、專業學術組織 vs. 一般性論壇、內容農場）。實際操作練習，搜尋本週主題（獸醫學概論、倫理）相關的中文學術文章或研究報告至少2篇。", vocab: "`Database` (n. - 資料庫), `Peer-reviewed` (adj. - 經過同儕審查的)", id:"m1w1d4" },
+                                { date: "2025/09/05", dayOfWeek: "星期五", title: "「健康一體 (One Health)」概念初探", task: "閱讀至少2篇關於「健康一體 (One Health)」概念的介紹性文章，或觀看相關的科普短片（例如WHO、CDC等國際組織提供的資源，可尋找中文版本或字幕）。以條列方式，清晰寫下個人對此概念的理解、其核心精神以及其在當代社會的重要性。", vocab: "`Interdisciplinary` (adj. - 跨學科的), `Surveillance` (n. - 監測；監視（尤指疾病傳播）)", id:"m1w1d5" },
+                                { date: "2025/09/06", dayOfWeek: "星期六", title: "探索獸醫職涯 - 初步腦力激盪", task: "根據本週所學的獸醫學範疇與「健康一體」概念，初步列出至少5種你認為獸醫師可能從事的不同類型工作或專業領域（不限於傳統臨床獸醫）。簡述每一類工作的可能內容。", vocab: "`Specialization` (n. - 專門化；專業領域), `Pathology` (n. - 病理學)", id:"m1w1d6" },
+                                { date: "2025/09/07", dayOfWeek: "星期日", title: "每週複習與規劃", task: "全面複習本週所有學習內容，整理數位筆記或心智圖。初步規劃下一週的學習時間表與資源需求。檢查本週的進度追蹤記錄，確保所有任務均已標註完成狀態。", vocab: "`Prognosis` (n. - 預後；對病情的預測), `Diagnosis` (n. - 診斷)", id:"m1w1d7" }
+                            ]
+                        },
+                        // ... (rest of month 1 weeks and other months data remains the same as previous version) ...
+                         {
+                            name: "Week 2: The Spectrum of Animal Species in Veterinary Care (獸醫照護中的動物物種光譜)",
+                            id: "m1w2",
+                            days: [
+                                { date: "2025/09/08", dayOfWeek: "星期一", title: "犬隻照護基礎", task: "研究犬隻的基本生理特性、不同品種的常見健康問題、以及基本的日常照護需求（飲食、運動、環境）。", vocab: "`Canine` (adj. - 犬的), `Breed` (n. - 品種)", id:"m1w2d1" },
+                                { date: "2025/09/09", dayOfWeek: "星期二", title: "貓隻照護基礎", task: "研究貓隻的獨特生理習性（如肉食性、狩獵行為）、常見健康問題（如泌尿道、腎臟疾病）、以及滿足其天性的照護方式。", vocab: "`Feline` (adj. - 貓的), `Behavior` (n. - 行為)", id:"m1w2d2" },
+                                { date: "2025/09/10", dayOfWeek: "星期三", title: "奇珍異獸寵物概覽", task: "了解常見的非犬貓類伴侶動物（如兔子、倉鼠、鳥類、爬蟲類）的定義與範疇。選擇其中兩種類型，研究其特殊的飼養環境與營養需求。", vocab: "`Exotic pet` (n. - 奇珍異獸寵物), `Husbandry` (n. - 飼養管理)", id:"m1w2d3" },
+                                { date: "2025/09/11", dayOfWeek: "星期四", title: "大型動物/經濟動物概覽", task: "了解經濟動物（如牛、豬、羊、家禽）在獸醫學中的重要性。研究其群體健康管理的基本概念與面臨的主要疾病挑戰。", vocab: "`Bovine` (adj. - 牛的), `Porcine` (adj. - 豬的)", id:"m1w2d4" },
+                                { date: "2025/09/12", dayOfWeek: "星期五", title: "禽鳥與水生動物獸醫學簡介", task: "初步探索觀賞鳥類、家禽以及水生動物（觀賞魚、經濟性水產）的獸醫照護特點與常見疾病類型。", vocab: "`Avian` (adj. - 鳥類的), `Aquatic` (adj. - 水生的)", id:"m1w2d5" },
+                                { date: "2025/09/13", dayOfWeek: "星期六", title: "比較不同物種的照護差異", task: "根據本週所學，選擇至少三種不同類型的動物，比較其在生理、行為、營養及環境需求上的主要差異，並思考這些差異對獸醫照護策略的影響。", vocab: "`Comparative` (adj. - 比較的), `Physiology` (n. - 生理學)", id:"m1w2d6" },
+                                { date: "2025/09/14", dayOfWeek: "星期日", title: "每週複習與物種知識整理", task: "複習本週關於不同動物物種的學習內容，製作一份比較表格或摘要，突出各類動物的關鍵照護要點。規劃下週學習進度。", vocab: "`Nutrition` (n. - 營養), `Environment` (n. - 環境)", id:"m1w2d7" }
+                            ]
+                        },
+                        {
+                            name: "Week 3: Foundational Veterinary Sciences - Anatomy & Physiology Basics (基礎獸醫科學：解剖學與生理學入門)",
+                            id: "m1w3",
+                            days: [
+                                { date: "2025/09/15", dayOfWeek: "星期一", title: "動物解剖學緒論", task: "閱讀關於比較動物解剖學的基本概念，了解身體系統（如骨骼、肌肉、循環、呼吸系統）的通用組織結構。", vocab: "`Anatomy` (n. - 解剖學), `Skeletal system` (n. - 骨骼系統)", id:"m1w3d1" },
+                                { date: "2025/09/16", dayOfWeek: "星期二", title: "重要器官系統概覽", task: "針對犬或貓，初步了解主要器官（心、肺、肝、腎、胃腸道）的位置與基本形態。", vocab: "`Organ` (n. - 器官), `Cardiovascular` (adj. - 心血管的)", id:"m1w3d2" },
+                                { date: "2025/09/17", dayOfWeek: "星期三", title: "動物生理學緒論", task: "閱讀關於動物生理學的基本原理，了解身體功能（如消化、呼吸、排泄、體溫調節）如何維持生命。", vocab: "`Homeostasis` (n. - 恆定狀態), `Metabolism` (n. - 新陳代謝)", id:"m1w3d3" },
+                                { date: "2025/09/18", dayOfWeek: "星期四", title: "重要生理功能探討", task: "選擇一項生理功能（如消化吸收或氣體交換），深入閱讀其運作機制，並比較不同物種間可能存在的差異（概念性）。", vocab: "`Respiration` (n. - 呼吸作用), `Digestion` (n. - 消化作用)", id:"m1w3d4" },
+                                { date: "2025/09/19", dayOfWeek: "星期五", title: "解剖與生理的關聯性", task: "思考並記錄特定器官的結構（解剖）如何支持其功能（生理），例如心臟的腔室結構與血液循環功能。", vocab: "`Structure` (n. - 結構), `Function` (n. - 功能)", id:"m1w3d5" },
+                                { date: "2025/09/20", dayOfWeek: "星期六", title: "實作 - 線上3D動物解剖模型探索", task: "查找並使用至少一個提供動物解剖3D模型的網站或應用程式（如大學獸醫學院資源、特定教育平台）。觀察犬或貓的骨骼系統和主要內臟器官。", vocab: "`Interactive` (adj. - 互動式的), `Visualization` (n. - 視覺化)", id:"m1w3d6" },
+                                { date: "2025/09/21", dayOfWeek: "星期日", title: "每週複習與基礎科學總結", task: "複習本週解剖學與生理學的入門知識，整理筆記，特別關注結構與功能的聯繫。規劃下週學習。", vocab: "`Terminology` (n. - 術語), `Concept` (n. - 概念)", id:"m1w3d7" }
+                            ]
+                        },
+                        {
+                            name: "Week 4: Introduction to Animal Behavior and Welfare (動物行為與動物福利概論)",
+                            id: "m1w4",
+                            days: [
+                                { date: "2025/09/22", dayOfWeek: "星期一", title: "動物行為學基礎", task: "閱讀動物行為學（Ethology）的入門介紹，了解先天行為與後天學習行為的區別，以及研究動物行為的重要性。", vocab: "`Ethology` (n. - 動物行為學), `Innate behavior` (n. - 先天行為)", id:"m1w4d1" },
+                                { date: "2025/09/23", dayOfWeek: "星期二", title: "常見動物行為模式", task: "了解不同動物（如犬、貓、馬）常見的溝通方式、社交行為、領域行為等。", vocab: "`Communication` (n. - 溝通), `Socialization` (n. - 社會化)", id:"m1w4d2" },
+                                { date: "2025/09/24", dayOfWeek: "星期三", title: "疼痛與壓力的行為表徵", task: "研究動物（特別是犬貓）在感到疼痛、恐懼或壓力時可能出現的行為改變與生理指標。", vocab: "`Stress` (n. - 壓力), `Analgesia` (n. - 止痛)", id:"m1w4d3" },
+                                { date: "2025/09/25", dayOfWeek: "星期四", title: "環境豐富化與行為需求", task: "了解環境豐富化對促進動物心理健康的重要性，以及如何為圈養動物提供滿足其天性的環境。", vocab: "`Enrichment` (n. - (環境)豐富化), `Stimulation` (n. - 刺激)", id:"m1w4d4" },
+                                { date: "2025/09/26", dayOfWeek: "星期五", title: "動物福利的五大自由/領域", task: "深入學習國際公認的動物福利「五大自由」或「五大領域」原則，理解其內涵及在獸醫實務中的應用。", vocab: "`Freedom` (n. - 自由), `Domain` (n. - 領域；範疇)", id:"m1w4d5" },
+                                { date: "2025/09/27", dayOfWeek: "星期六", title: "動物福利案例分析", task: "查找一個關於動物福利改善或受損的案例（如農場動物、實驗動物或伴侶動物），分析其中涉及的福利問題與倫理考量。", vocab: "`Humane` (adj. - 人道的；仁慈的), `Legislation` (n. - 立法)", id:"m1w4d6" },
+                                { date: "2025/09/28", dayOfWeek: "星期日", title: "每週複習與倫理反思", task: "複習本週動物行為與福利的內容，特別思考獸醫師在維護動物福利中的角色與責任。規劃下月學習。", vocab: "`Sentience` (n. -感知能力；知覺), `Responsibility` (n. - 責任)", id:"m1w4d7" },
+                                { date: "2025/09/29", dayOfWeek: "星期一", title: "月底緩衝/整理", task: "月底緩衝、整理與準備月評量時間。", vocab: "", id:"m1w4d8" },
+                                { date: "2025/09/30", dayOfWeek: "星期二", title: "月底緩衝/整理", task: "月底緩衝、整理與準備月評量時間。", vocab: "", id:"m1w4d9" }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    name: "第二個月：伴侶動物醫學與臨床實務初探 (2025年10月)",
+                    id: "month2",
+                    overallGoal: "深入了解犬、貓等主要伴侶動物的常見疾病、預防保健措施、基礎營養需求及基本臨床診斷流程的概念。初步探索伴侶動物獸醫師的日常工作內容、所面臨的挑戰以及所需的專業素養。實作活動：透過線上資源進行模擬病例分析，或嘗試設計一份寵物健康教育宣傳單張。",
+                    weeks: [
+                        {
+                            name: "Week 5: 犬隻常見疾病與預防", id: "m2w1",
+                            days: [
+                                { date: "2025/10/01", dayOfWeek: "星期三", title: "犬隻常見病毒性疾病", task: "研究犬瘟熱 (Canine Distemper)、犬小病毒腸炎 (Parvovirus Enteritis) 等重要病毒性疾病的病原、傳播途徑、臨床症狀及預防方法（如疫苗接種）。", vocab: "`Infectious` (adj. - 傳染性的), `Vaccination` (n. - 疫苗接種)", id:"m2w1d1" },
+                                { date: "2025/10/02", dayOfWeek: "星期四", title: "犬隻常見細菌性與寄生蟲疾病", task: "了解鉤端螺旋體病 (Leptospirosis)、萊姆病 (Lyme disease) 等細菌性疾病，以及心絲蟲 (Heartworm)、跳蚤、壁蝨等內外寄生蟲的危害與防治。", vocab: "`Parasite` (n. - 寄生蟲), `Prevention` (n. - 預防)", id:"m2w1d2" },
+                                { date: "2025/10/03", dayOfWeek: "星期五", title: "犬隻常見非傳染性疾病", task: "初步認識犬隻常見的非傳染性問題，如過敏性皮膚炎、關節疾病（如髖關節發育不良）、特定品種好發的遺傳性疾病等。", vocab: "`Allergy` (n. - 過敏), `Hereditary` (adj. - 遺傳性的)", id:"m2w1d3" },
+                                { date: "2025/10/04", dayOfWeek: "星期六", title: "犬隻預防保健計畫", task: "綜合考量疫苗、驅蟲、健康檢查、牙齒護理等，了解獸醫師如何為犬隻制定個體化的年度預防保健計畫。", vocab: "`Check-up` (n. - 健康檢查), `Dental care` (n. - 牙齒護理)", id:"m2w1d4" },
+                                { date: "2025/10/05", dayOfWeek: "星期日", title: "犬隻基礎營養學", task: "了解犬隻作為雜食性動物（偏肉食）的六大必需營養素（蛋白質、脂肪、碳水化合物、維生素、礦物質、水），以及不同生命階段（幼犬、成犬、老年犬）的營養需求差異。", vocab: "`Nutrient` (n. - 營養素), `Diet` (n. - 飲食；膳食)", id:"m2w1d5" },
+                                { date: "2025/10/06", dayOfWeek: "星期一", title: "案例探討：犬隻常見健康問題處理", task: "查找一篇關於犬隻常見疾病（如皮膚病或腸胃不適）的科普文章或簡化病例報告，了解其診斷思路與處理原則。", vocab: "`Symptom` (n. - 症狀), `Treatment` (n. - 治療)", id:"m2w1d6" },
+                                { date: "2025/10/07", dayOfWeek: "星期二", title: "每週複習與犬隻健康總結", task: "複習本週犬隻疾病與預防保健知識，整理重點筆記。規劃下週學習。", vocab: "`Management` (n. - 管理；處理), `Prophylaxis` (n. - 預防法)", id:"m2w1d7" }
+                            ]
+                        },
+                        {
+                            name: "Week 6: 貓隻常見疾病與預防", id: "m2w2",
+                            days: [
+                                { date: "2025/10/08", dayOfWeek: "星期三", title: "貓隻常見病毒性疾病", task: "研究貓上呼吸道感染症候群、貓瘟、貓白血病 (FeLV)、貓免疫缺陷病毒 (FIV) 的病原、症狀與防治。", vocab: "`Contagious` (adj. - 接觸傳染性的), `Retrovirus` (n. - 反轉錄病毒)", id:"m2w2d1" },
+                                { date: "2025/10/09", dayOfWeek: "星期四", title: "貓隻常見泌尿道與腎臟疾病", task: "了解貓下泌尿道症候群 (FLUTD) 與慢性腎臟病 (CKD) 的成因、臨床表現及管理方式。", vocab: "`Urinary tract` (n. - 泌尿道), `Renal` (adj. - 腎臟的)", id:"m2w2d2" },
+                                { date: "2025/10/10", dayOfWeek: "星期五", title: "貓隻常見寄生蟲與內分泌疾病", task: "了解貓常見的內外寄生蟲（如弓漿蟲, 耳疥蟲），以及甲狀腺功能亢進、糖尿病等內分泌問題。", vocab: "`Endocrine` (adj. - 內分泌的), `Hormone` (n. - 荷爾蒙；激素)", id:"m2w2d3" },
+                                { date: "2025/10/11", dayOfWeek: "星期六", title: "貓隻預防保健與行為健康", task: "了解貓的疫苗計畫、驅蟲、健康檢查，並關注其獨特的行為需求與常見行為問題。", vocab: "`Scratching post` (n. - 貓抓板), `Anxiety` (n. - 焦慮)", id:"m2w2d4" },
+                                { date: "2025/10/12", dayOfWeek: "星期日", title: "貓隻基礎營養學", task: "了解貓作為純肉食性動物的特殊營養需求（如牛磺酸、高蛋白），以及如何選擇合適的貓糧與避免常見的餵食誤區。", vocab: "`Obligate carnivore` (n. - 純肉食動物), `Taurine` (n. - 牛磺酸)", id:"m2w2d5" },
+                                { date: "2025/10/13", dayOfWeek: "星期一", title: "案例探討：貓隻慢性病管理", task: "查找一篇關於貓慢性腎病或糖尿病管理的科普文章或簡化病例，了解長期照護的重點。", vocab: "`Chronic` (adj. - 慢性的), `Palliative care` (n. - 緩和醫療)", id:"m2w2d6" },
+                                { date: "2025/10/14", dayOfWeek: "星期二", title: "每週複習與貓隻健康總結", task: "複習本週貓隻疾病與預防保健知識，整理重點筆記。規劃下週學習。", vocab: "`Geriatric` (adj. - 老年醫學的；老年的), `Monitoring` (n. - 監控)", id:"m2w2d7" }
+                            ]
+                        },
+                        {
+                            name: "Week 7: 獸醫診所：角色與運作", id: "m2w3",
+                            days: [
+                                { date: "2025/10/15", dayOfWeek: "星期三", title: "獸醫團隊中的角色", task: "了解獸醫診所中不同成員的角色與職責，包括獸醫師、獸醫助理/技士、櫃台接待人員等。", vocab: "`Technician` (n. - 技師；技術員), `Receptionist` (n. - 接待員)", id:"m2w3d1" },
+                                { date: "2025/10/16", dayOfWeek: "星期四", title: "獸醫診所的日常運作", task: "了解獸醫診所的預約系統、病歷管理、藥品庫存管理、環境清潔消毒等日常運作流程。", vocab: "`Appointment` (n. - 預約), `Medical record` (n. - 病歷)", id:"m2w3d2" },
+                                { date: "2025/10/17", dayOfWeek: "星期五", title: "實作 (Part 1) - 研究社區型獸醫診所", task: "查找至少一家住家附近或感興趣的社區型獸醫診所的網站。分析其提供的服務項目、獸醫師團隊介紹、硬體設備介紹。記錄觀察重點。", vocab: "`General practice` (n. - 全科執業), `Outpatient` (adj. - 門診的)", id:"m2w3d3" },
+                                { date: "2025/10/18", dayOfWeek: "星期六", title: "實作 (Part 2) - 研究24小時急診/專科獸醫院", task: "查找至少一家24小時動物醫院或專科獸醫院。比較其與社區型診所在服務範圍、設備、人力配置上的差異。", vocab: "`Emergency` (n. - 急診), `Specialty` (n. - 專科)", id:"m2w3d4" },
+                                { date: "2025/10/19", dayOfWeek: "星期日", title: "實作 (Part 3) - 比較不同類型獸醫院報告", task: "根據前兩天的研究，撰寫一份約500字的簡短報告，比較不同類型獸醫院的特點、優勢與可能面臨的挑戰。", vocab: "`Referral` (n. - 轉診), `Critical care` (n. - 重症監護)", id:"m2w3d5" },
+                                { date: "2025/10/20", dayOfWeek: "星期一", title: "醫病溝通與同理心初探", task: "閱讀關於獸醫臨床中醫病溝通技巧重要性的文章。思考獸醫師如何有效地與焦慮的飼主溝通，並展現同理心。", vocab: "`Communication skills` (n. - 溝通技巧), `Empathy` (n. - 同理心)", id:"m2w3d6" },
+                                { date: "2025/10/21", dayOfWeek: "星期二", title: "每週複習與診所運作理解", task: "複習本週關於獸醫診所角色與運作的內容，整理實作報告。規劃下週學習。", vocab: "`Client` (n. - 客戶；飼主), `Consultation` (n. - 會診；諮詢)", id:"m2w3d7" }
+                            ]
+                        },
+                        {
+                            name: "Week 8: 獸醫診斷學入門", id: "m2w4",
+                            days: [
+                                { date: "2025/10/22", dayOfWeek: "星期三", title: "基礎理學檢查", task: "了解獸醫師進行理學檢查的步驟（視、聽、觸、叩、嗅）與重點，以及如何從中獲取初步的健康資訊。", vocab: "`Physical examination` (n. - 理學檢查), `Observation` (n. - 觀察)", id:"m2w4d1" },
+                                { date: "2025/10/23", dayOfWeek: "星期四", title: "影像學診斷初探", task: "了解X光 (Radiography) 與超音波 (Ultrasonography) 在獸醫診斷上的基本原理、應用範圍及局限性。", vocab: "`Radiography` (n. - X光攝影術), `Ultrasonography` (n. - 超音波檢查術)", id:"m2w4d2" },
+                                { date: "2025/10/24", dayOfWeek: "星期五", title: "實驗室檢驗初探", task: "了解基礎血液學檢查（如CBC）、血液生化學檢查及尿液分析在獸醫診斷中的意義。", vocab: "`Hematology` (n. - 血液學), `Biochemistry` (n. - 生物化學)", id:"m2w4d3" },
+                                { date: "2025/10/25", dayOfWeek: "星期六", title: "實作 - 觀看診斷工具介紹影片", task: "查找並觀看至少2部介紹獸醫師如何使用X光、超音波或進行基礎血液抹片判讀的教育短片。摘要這些工具在診斷上的角色與操作要點。", vocab: "`Microscopy` (n. - 顯微鏡檢術), `Interpretation` (n. - 判讀；解釋)", id:"m2w4d4" },
+                                { date: "2025/10/26", dayOfWeek: "星期日", title: "模擬病例分析：診斷流程", task: "閱讀一個簡化的伴侶動物病例。思考若你是獸醫師，會建議進行哪些診斷檢查，並說明理由。", vocab: "`Differential diagnosis` (n. - 鑑別診斷), `Clinical reasoning` (n. - 臨床推理)", id:"m2w4d5" },
+                                { date: "2025/10/27", dayOfWeek: "星期一", title: "診斷的倫理與成本考量", task: "思考在建議診斷檢查時，獸醫師需要平衡的因素，包括動物福利、診斷的必要性、以及飼主的經濟負擔。", vocab: "`Informed consent` (n. - 知情同意), `Cost-benefit analysis` (n. - 成本效益分析)", id:"m2w4d6" },
+                                { date: "2025/10/28", dayOfWeek: "星期二", title: "每週複習與診斷學概念總結", task: "複習本週獸醫診斷學入門知識，整理模擬病例分析的思路。規劃下月學習。", vocab: "`Accuracy` (n. - 準確性), `Sensitivity` (n. - (檢測)敏感度)", id:"m2w4d7" },
+                                { date: "2025/10/29", dayOfWeek: "星期三", title: "月底緩衝/整理/實作", task: "月底緩衝、整理、設計寵物健康宣傳單張與準備月評量時間。", vocab: "", id:"m2w4d8" },
+                                { date: "2025/10/30", dayOfWeek: "星期四", title: "月底緩衝/整理/實作", task: "月底緩衝、整理、設計寵物健康宣傳單張與準備月評量時間。", vocab: "", id:"m2w4d9" },
+                                { date: "2025/10/31", dayOfWeek: "星期五", title: "月底緩衝/整理/實作", task: "月底緩衝、整理、設計寵物健康宣傳單張與準備月評量時間。", vocab: "", id:"m2w4d10" }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    name: "第三個月：經濟動物、野生動物與公共衛生獸醫學 (2025年11月)",
+                    id: "month3",
+                    overallGoal: "認識獸醫師在現代畜牧產業、保障食品安全供應鏈、防治人畜共通疾病以及參與野生動物保育與救傷工作中所扮演的關鍵角色與貢獻。深入理解獸醫專業工作對於國家經濟發展、環境生態平衡及整體人類社會健康的深遠影響。實作活動：選擇一項重要的人畜共通疾病進行深入研究，並製作其預防與控制的資訊圖表 (Infographic)；或研究一項本地區的野生動物救傷案例，分析其中獸醫的角色。",
+                    weeks: [
+                        {
+                            name: "Week 9: 獸醫在食品生產與安全中的角色", id: "m3w1",
+                            days: [
+                                { date: "2025/11/01", dayOfWeek: "星期六", title: "豬隻健康管理與產業獸醫", task: "了解現代養豬產業中獸醫師的角色，包括疾病預防控制計畫、繁殖管理、飼料營養、以及豬場生物安全。", vocab: "`Swine` (n. - 豬), `Biosecurity` (n. - 生物安全)", id:"m3w1d1" },
+                                { date: "2025/11/02", dayOfWeek: "星期日", title: "家禽健康管理與產業獸醫", task: "研究家禽常見的傳染病，以及獸醫師在確保家禽產品安全與品質方面的職責。", vocab: "`Poultry` (n. - 家禽), `Flock` (n. - (禽鳥)群)", id:"m3w1d2" },
+                                { date: "2025/11/03", dayOfWeek: "星期一", title: "牛隻健康管理（乳牛與肉牛）", task: "了解乳牛與肉牛養殖中獸醫師的工作重點，例如乳房炎防治、繁殖效率提升、犢牛培育、以及重要牛隻疾病的監控。", vocab: "`Dairy` (adj. - 乳製品的), `Beef` (n. - 牛肉)", id:"m3w1d3" },
+                                { date: "2025/11/04", dayOfWeek: "星期二", title: "水產動物健康管理", task: "初步認識經濟性水產養殖中獸醫師的角色，包括水質管理、疾病診斷與預防、用藥安全等。", vocab: "`Aquaculture` (n. - 水產養殖), `Pathogen` (n. - 病原體)", id:"m3w1d4" },
+                                { date: "2025/11/05", dayOfWeek: "星期三", title: "畜群健康管理概念", task: "學習「畜群健康管理」的概念，理解其如何從個體動物治療轉向整體動物群的健康維護與生產效率提升。", vocab: "`Herd health` (n. - 畜群健康), `Epidemiology` (n. - 流行病學)", id:"m3w1d5" },
+                                { date: "2025/11/06", dayOfWeek: "星期四", title: "從農場到餐桌：獸醫在食品安全的角色", task: "探討獸醫師在屠宰衛生檢查、藥物殘留監控、確保肉品、乳品、蛋品安全等食品安全環節中的貢獻。", vocab: "`Food safety` (n. - 食品安全), `Residue` (n. - 殘留物)", id:"m3w1d6" },
+                                { date: "2025/11/07", dayOfWeek: "星期五", title: "每週複習與經濟動物獸醫總結", task: "複習本週經濟動物獸醫學與食品安全的內容。規劃下週學習。", vocab: "`Inspection` (n. - 檢查), `Regulation` (n. - 法規；規章)", id:"m3w1d7" }
+                            ]
+                        },
+                        {
+                            name: "Week 10: 人畜共通疾病與公共衛生 – 獸醫師作為守護者", id: "m3w2",
+                            days: [
+                                { date: "2025/11/08", dayOfWeek: "星期六", title: "人畜共通疾病概論", task: "了解人畜共通疾病的定義、傳播途徑、以及其對全球公共衛生的威脅。", vocab: "`Transmission` (n. - 傳播), `Vector-borne` (adj. - 病媒傳播的)", id:"m3w2d1" },
+                                { date: "2025/11/09", dayOfWeek: "星期日", title: "狂犬病 (Rabies)", task: "深入研究狂犬病的病原、宿主動物、人類感染後的嚴重性、以及獸醫在犬貓疫苗接種與疫情監控中的核心角色。", vocab: "`Rabies` (n. - 狂犬病), `Reservoir` (n. - (疾病)儲存宿主)", id:"m3w2d2" },
+                                { date: "2025/11/10", dayOfWeek: "星期一", title: "禽流感 (Avian Influenza)", task: "了解不同型別禽流感病毒對禽鳥的影響、其跨物種傳播至人類的風險、以及獸醫在早期預警與撲殺控制中的作用。", vocab: "`Influenza` (n. - 流感), `Pandemic` (n. - 大流行病)", id:"m3w2d3" },
+                                { date: "2025/11/11", dayOfWeek: "星期二", title: "其他重要人畜共通疾病", task: "選擇1-2種其他重要的人畜共通疾病進行初步研究，例如：布氏桿菌病、鉤端螺旋體病、萊姆病、沙門氏菌症或弓漿蟲症。", vocab: "`Brucellosis` (n. - 布氏桿菌病), `Salmonellosis` (n. - 沙門氏菌症)", id:"m3w2d4" },
+                                { date: "2025/11/12", dayOfWeek: "星期三", title: "獸醫在疾病監測與控制的角色", task: "探討獸醫師如何參與國家或地區的動物疾病監測網絡、疫情調查、以及執行防疫措施。", vocab: "`Outbreak` (n. - (疫情)爆發), `Quarantine` (n. - 隔離檢疫)", id:"m3w2d5" },
+                                { date: "2025/11/13", dayOfWeek: "星期四", title: "實作 - 人畜共通疾病資訊圖表製作", task: "選擇本週學習的一種重要人畜共通疾病，製作一份A4大小的資訊圖表 (Infographic)，旨在向一般大眾進行科普宣導。", vocab: "`Infographic` (n. - 資訊圖表), `Public awareness` (n. - 公眾意識)", id:"m3w2d6" },
+                                { date: "2025/11/14", dayOfWeek: "星期五", title: "每週複習與公衛獸醫反思", task: "複習本週人畜共通疾病的內容，思考「健康一體」理念在防治這些疾病中的實際應用。規劃下週學習。", vocab: "`Collaboration` (n. - 合作), `Eradication` (n. - 根除)", id:"m3w2d7" }
+                            ]
+                        },
+                        {
+                            name: "Week 11: 野生動物獸醫學與保育", id: "m3w3",
+                            days: [
+                                { date: "2025/11/15", dayOfWeek: "星期六", title: "野生動物健康概論", task: "了解野生動物獸醫學的範疇，包括自由活動與圈養野生動物的健康管理、疾病監測與生態角色。", vocab: "`Wildlife` (n. - 野生動物), `Conservation` (n. - 保育)", id:"m3w3d1" },
+                                { date: "2025/11/16", dayOfWeek: "星期日", title: "野生動物常見健康問題", task: "研究野生動物面臨的常見健康威脅，如創傷、中毒、傳染病、以及棲地破壞導致的健康問題。", vocab: "`Habitat` (n. - 棲地), `Trauma` (n. - 創傷)", id:"m3w3d2" },
+                                { date: "2025/11/17", dayOfWeek: "星期一", title: "獸醫在野生動物保育的角色", task: "探討獸醫師如何透過疾病研究、族群健康評估、麻醉與個體救助、以及參與保育計畫來貢獻於物種保育。", vocab: "`Endangered species` (n. - 瀕危物種), `Rehabilitation` (n. - (傷病動物)康復；復健)", id:"m3w3d3" },
+                                { date: "2025/11/18", dayOfWeek: "星期二", title: "實作 (Part 1) - 研究本地野生動物救傷組織", task: "查找台灣地區的野生動物救傷中心、相關保育組織或學術單位的資料。了解其宗旨、工作內容與獸醫參與情況。", vocab: "`Rescue center` (n. - 救傷中心), `Non-profit organization (NPO)` (n. - 非營利組織)", id:"m3w3d4" },
+                                { date: "2025/11/19", dayOfWeek: "星期三", title: "實作 (Part 2) - 閱讀救傷案例或年度報告", task: "從前一天研究的組織網站上，尋找並閱讀其發布的救傷案例報告、年度工作報告或相關研究成果。", vocab: "`Case report` (n. - 病例報告), `Anesthesia` (n. - 麻醉)", id:"m3w3d5" },
+                                { date: "2025/11/20", dayOfWeek: "星期四", title: "野生動物獸醫學的挑戰與倫理", task: "思考野生動物醫療的特殊性，例如物種多樣性、保定困難、野放標準、以及個體救助與族群管理的平衡等倫理議題。", vocab: "`Immobilization` (n. - (用藥物)固定；麻醉（野生動物）), `Euthanasia` (n. - 安樂死)", id:"m3w3d6" },
+                                { date: "2025/11/21", dayOfWeek: "星期五", title: "每週複習與野生動物保育反思", task: "複習本週野生動物獸醫學內容，整理實作心得。規劃下週學習。", vocab: "`Ecosystem` (n. - 生態系統), `Biodiversity` (n. - 生物多樣性)", id:"m3w3d7" }
+                            ]
+                        },
+                        {
+                            name: "Week 12: 水生動物醫學與收容所醫學概覽", id: "m3w4",
+                            days: [
+                                { date: "2025/11/22", dayOfWeek: "星期六", title: "非經濟性水生動物醫學", task: "了解觀賞魚、海洋哺乳動物、海龜等非食用目的之水生動物的獸醫照護特點。", vocab: "`Marine mammal` (n. - 海洋哺乳動物), `Water quality` (n. - 水質)", id:"m3w4d1" },
+                                { date: "2025/11/23", dayOfWeek: "星期日", title: "水族館與海洋公園獸醫", task: "探討在水族館、海洋公園等機構服務的獸醫師的工作內容。", vocab: "`Aquarium` (n. - 水族館), `Stranding` (n. - (鯨豚等)擱淺)", id:"m3w4d2" },
+                                { date: "2025/11/24", dayOfWeek: "星期一", title: "收容所醫學原理", task: "了解收容所醫學的獨特性，其目標是在資源有限的環境下，最大化動物族群的健康與福利，並促進領養。", vocab: "`Shelter medicine` (n. - 收容所醫學), `Adoption` (n. - 領養)", id:"m3w4d3" },
+                                { date: "2025/11/25", dayOfWeek: "星期二", title: "收容所的疾病控制與預防", task: "研究動物收容所中常見的傳染病爆發風險，以及獸醫師如何透過有效的清潔消毒、疫苗接種、隔離檢疫計畫來控制疾病傳播。", vocab: "`Disinfection` (n. - 消毒), `Intake` (n. - (收容所)接收動物)", id:"m3w4d4" },
+                                { date: "2025/11/26", dayOfWeek: "星期三", title: "收容所動物的行為評估與豐富化", task: "了解收容所獸醫團隊如何評估動物的行為，以利配對合適的領養家庭，並提供環境豐富化以減輕動物的緊迫。", vocab: "`Temperament` (n. - 性情；氣質), `Foster care` (n. - (動物)中途之家照護)", id:"m3w4d5" },
+                                { date: "2025/11/27", dayOfWeek: "星期四", title: "這些特殊領域的挑戰與展望", task: "綜合思考水生動物醫學與收容所醫學所面臨的共同與特有挑戰，以及未來的發展潛力。", vocab: "`Burnout` (n. - (工作)過勞；職業倦怠), `Sustainability` (n. - 可持續性)", id:"m3w4d6" },
+                                { date: "2025/11/28", dayOfWeek: "星期五", title: "每週複習與特殊領域獸醫總結", task: "複習本週水生動物醫學與收容所醫學的內容。規劃下月學習。", vocab: "`Advocacy` (n. - 倡議；擁護), `Community outreach` (n. - 社區服務推廣)", id:"m3w4d7" },
+                                { date: "2025/11/29", dayOfWeek: "星期六", title: "月底緩衝/整理", task: "月底緩衝、整理與準備月評量時間。", vocab: "", id:"m3w4d8" },
+                                { date: "2025/11/30", dayOfWeek: "星期日", title: "月底緩衝/整理", task: "月底緩衝、整理與準備月評量時間。", vocab: "", id:"m3w4d9" }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    name: "第四個月：獸醫學特殊領域、研究與未來展望 (2025年12月)",
+                    id: "month4",
+                    overallGoal: "深入探索獸醫學中更為專精或較少為大眾所知的進階領域，例如獸醫病理學、獸醫法醫學、實驗動物醫學、以及獸醫在國際事務與政策制定中的角色。初步了解當代獸醫學研究的主要趨勢、新興科技在獸醫領域的應用前景。實作活動：嘗試透過電子郵件或社群平台，禮貌地聯繫一位在非傳統獸醫領域服務的獸醫師，進行1-2個簡短的書面提問；或選擇一項獸醫學領域的最新研究突破或技術應用，撰寫一份摘要報告。",
+                    weeks: [
+                        {
+                            name: "Week 13: 獸醫病理學、法醫學與實驗動物醫學", id: "m4w1",
+                            days: [
+                                { date: "2025/12/01", dayOfWeek: "星期一", title: "獸醫病理學概論", task: "了解獸醫病理學家的工作：透過組織、細胞、體液檢查來診斷疾病、研究疾病機制、以及在動物死後剖檢中確定死因。", vocab: "`Pathologist` (n. - 病理學家), `Necropsy` (n. - (動物)屍體剖檢)", id:"m4w1d1" },
+                                { date: "2025/12/02", dayOfWeek: "星期二", title: "疾病診斷中的病理學", task: "研究病理學檢查（如活體組織切片 Biopsy、細胞學檢查 Cytology）如何在臨床上協助獸醫師確診疾病。", vocab: "`Biopsy` (n. - 活體組織切片檢查), `Cytology` (n. - 細胞學檢查)", id:"m4w1d2" },
+                                { date: "2025/12/03", dayOfWeek: "星期三", title: "獸醫法醫學概論", task: "了解獸醫法醫學如何將獸醫學知識應用於法律案件，例如虐待動物案件的證據搜集、動物死因的判定等。", vocab: "`Forensic science` (n. - 法醫學；鑑識科學), `Animal cruelty` (n. - 虐待動物)", id:"m4w1d3" },
+                                { date: "2025/12/04", dayOfWeek: "星期四", title: "獸醫法醫學案例探討", task: "查找一篇關於獸醫法醫學應用的案例報導或簡化研究，分析獸醫師如何在案件中提供關鍵性的專業意見。", vocab: "`Evidence` (n. - 證據), `Testimony` (n. - 證詞)", id:"m4w1d4" },
+                                { date: "2025/12/05", dayOfWeek: "星期五", title: "實驗動物醫學概論", task: "了解實驗動物獸醫師在生物醫學研究中的角色，包括維護實驗動物的健康與福祉、提供專業的動物護理與麻醉止痛、以及確保研究符合倫理與法規（3R原則）。", vocab: "`Laboratory animal` (n. - 實驗動物), `Animal model` (n. - 動物模型)", id:"m4w1d5" },
+                                { date: "2025/12/06", dayOfWeek: "星期六", title: "實驗動物的倫理與福祉", task: "深入探討使用動物進行科學研究的倫理議題，以及獸醫師在確保實驗動物獲得人道對待與最小化痛苦方面的重要性。", vocab: "`Refinement` (n. - (實驗)精緻化), `Replacement` (n. - (實驗)取代)", id:"m4w1d6" },
+                                { date: "2025/12/07", dayOfWeek: "星期日", title: "每週複習與特殊診斷領域總結", task: "複習本週病理學、法醫學與實驗動物醫學的內容。規劃下週學習。", vocab: "`Reduction` (n. - (實驗)減量), `Humane endpoint` (n. - 人道終止點)", id:"m4w1d7" }
+                            ]
+                        },
+                        {
+                            name: "Week 14: 獸醫師在研究與學術界的角色", id: "m4w2",
+                            days: [
+                                { date: "2025/12/08", dayOfWeek: "星期一", title: "獸醫學研究的範疇", task: "了解獸醫學研究的多樣性，包括動物疾病的基礎研究、新療法與診斷技術的開發、比較醫學研究等。", vocab: "`Research` (n. - 研究), `Translational medicine` (n. - 轉譯醫學)", id:"m4w2d1" },
+                                { date: "2025/12/09", dayOfWeek: "星期二", title: "成為獸醫科學家的途徑", task: "研究獸醫師在完成DVM學位後，如何進一步攻讀碩士/博士學位或進行住院醫師訓練，從而投身研究或學術工作。", vocab: "`Academia` (n. - 學術界), `Postgraduate` (adj. - 研究生的)", id:"m4w2d2" },
+                                { date: "2025/12/10", dayOfWeek: "星期三", title: "實作 (Part 1) - 尋找獸醫研究論文摘要", task: "透過大學獸醫學院網站、學術搜尋引擎，尋找一篇由獸醫學者發表的中文或英文研究論文摘要。", vocab: "`Abstract` (n. - (論文)摘要), `Journal` (n. - 期刊)", id:"m4w2d3" },
+                                { date: "2025/12/11", dayOfWeek: "星期四", title: "實作 (Part 2) - 分析研究論文摘要", task: "仔細閱讀前一天找到的論文摘要，嘗試理解其研究的主要目的、方法、結果與結論。", vocab: "`Methodology` (n. - 方法學), `Findings` (n. - 研究結果)", id:"m4w2d4" },
+                                { date: "2025/12/12", dayOfWeek: "星期五", title: "獸醫教育與教學", task: "了解獸醫師在大學獸醫學院、獸醫技術人員培訓機構中擔任教職的角色。", vocab: "`Curriculum` (n. - 課程), `Lecturer` (n. - 講師)", id:"m4w2d5" },
+                                { date: "2025/12/13", dayOfWeek: "星期六", title: "獸醫學院的角色與功能", task: "探討獸醫學院除了培育獸醫師外，在科學研究、社會服務、以及推動獸醫學發展方面所扮演的重要角色。", vocab: "`Accreditation` (n. - (機構)認證), `Teaching hospital` (n. - 教學醫院)", id:"m4w2d6" },
+                                { date: "2025/12/14", dayOfWeek: "星期日", title: "每週複習與學術獸醫反思", task: "複習本週獸醫研究與學術界的內容。規劃下週學習。", vocab: "`Innovation` (n. - 創新), `Grant` (n. - (研究)補助金)", id:"m4w2d7" }
+                            ]
+                        },
+                        {
+                            name: "Week 15: 全球獸醫事務、政策與新興科技", id: "m4w3",
+                            days: [
+                                { date: "2025/12/15", dayOfWeek: "星期一", title: "國際獸醫組織與全球動物健康", task: "認識重要的國際獸醫相關組織 (如WOAH, FAO) 及其在全球動物疾病控制、貿易標準制定、動物福利推廣方面的作用。", vocab: "`Globalization` (n. - 全球化), `Standardization` (n. - 標準化)", id:"m4w3d1" },
+                                { date: "2025/12/16", dayOfWeek: "星期二", title: "獸醫師在政策制定中的角色", task: "探討獸醫師如何以其專業知識，參與政府部門的動物相關政策、法規的制定與執行。", vocab: "`Policy` (n. - 政策), `Advocacy` (n. - 倡議)", id:"m4w3d2" },
+                                { date: "2025/12/17", dayOfWeek: "星期三", title: "抗微生物藥物抗藥性 (AMR)", task: "了解抗微生物藥物抗藥性對動物健康與公共衛生的嚴重威脅，以及獸醫師在謹慎用藥方面的責任。", vocab: "`Antimicrobial resistance (AMR)` (n. - 抗微生物藥物抗藥性), `Stewardship` (n. - 管理；監管)", id:"m4w3d3" },
+                                { date: "2025/12/18", dayOfWeek: "星期四", title: "新興科技在獸醫學的應用 (Part 1)", task: "初步探索基因體學、分子診斷技術、以及遠距醫療在獸醫臨床診斷、疾病預防與治療上的潛力。", vocab: "`Genomics` (n. - 基因體學), `Telemedicine` (n. - 遠距醫療)", id:"m4w3d4" },
+                                { date: "2025/12/19", dayOfWeek: "星期五", title: "新興科技在獸醫學的應用 (Part 2)", task: "初步探索人工智慧 (AI) 在影像判讀、精準醫療、疫情預測，以及穿戴式裝置在動物健康監測上的應用前景。", vocab: "`Artificial intelligence (AI)` (n. - 人工智慧), `Wearable technology` (n. - 穿戴式技術)", id:"m4w3d5" },
+                                { date: "2025/12/20", dayOfWeek: "星期六", title: "全球動物健康面臨的挑戰與未來", task: "綜合思考氣候變遷、新興傳染病、糧食安全、生物多樣性喪失等全球性議題對動物健康的影響，以及獸醫專業的未來發展方向。", vocab: "`Climate change` (n. - 氣候變遷), `Food security` (n. - 糧食安全)", id:"m4w3d6" },
+                                { date: "2025/12/21", dayOfWeek: "星期日", title: "每週複習與獸醫未來展望", task: "複習本週全球獸醫事務與新興科技的內容。規劃下週學習。", vocab: "`Adaptation` (n. - 適應), `Resilience` (n. - 韌性；恢復力)", id:"m4w3d7" }
+                            ]
+                        },
+                        {
+                            name: "Week 16: 計畫總結、反思與未來路徑", id: "m4w4",
+                            days: [
+                                { date: "2025/12/22", dayOfWeek: "星期一", title: "實作 (Part 1) - 嘗試聯繫獸醫師或研究代表人物", task: "根據個人在本計畫中最感興趣的特殊獸醫領域，嘗試聯繫一位該領域的獸醫師。準備1-2個簡潔、具體的書面問題。", vocab: "`Networking` (n. - 建立人脈網絡), `Informational interview` (n. - 資訊性訪談)", id:"m4w4d1" },
+                                { date: "2025/12/23", dayOfWeek: "星期二", title: "實作 (Part 2) - 備案：深入研究代表人物/領域", task: "若未能成功聯繫，則改為深入研究該領域一位國內外知名的代表性人物的學術生涯、主要貢獻與影響。", vocab: "`Biography` (n. - 傳記), `Contribution` (n. - 貢獻)", id:"m4w4d2" },
+                                { date: "2025/12/24", dayOfWeek: "星期三", title: "全面回顧四個月學習歷程", task: "重新檢視過去四個月的學習日誌、筆記、實作成果以及月評量結果。列出印象最深刻的學習主題、遇到的主要困難點以及克服方法。", vocab: "`Milestone` (n. - 里程碑), `Challenge` (n. - 挑戰)", id:"m4w4d3" },
+                                { date: "2025/12/25", dayOfWeek: "星期四", title: "準備撰寫「心得反思」(Tab 5) 初稿", task: "根據Tab 5「心得反思」的內容結構提示，開始構思並撰寫初稿。", vocab: "`Self-reflection` (n. - 自我反思), `Growth` (n. - 成長)", id:"m4w4d4" },
+                                { date: "2025/12/26", dayOfWeek: "星期五", title: "完成並潤飾「心得反思」", task: "完成「心得反思」的撰寫，並仔細校對文法、用字遣詞，確保內容流暢、真誠且符合1500字左右的要求。", vocab: "`Articulation` (n. - 清晰表達), `Authenticity` (n. - 真實性)", id:"m4w4d5" },
+                                { date: "2025/12/27", dayOfWeek: "星期六", title: "整理參考資料 (Tab 6) 並探索大學獸醫學程", task: "彙整四個月學習過程中所有參考過的文獻、網站、影片等資料。初步瀏覽國內外感興趣的大學獸醫學系/院的網站。", vocab: "`Citation` (n. - 引文；引證), `Admission requirements` (n. - 入學要求)", id:"m4w4d6" },
+                                { date: "2025/12/28", dayOfWeek: "星期日", title: "計畫最終檢視與GitHub Pages部署準備", task: "對整個自主學習計畫的網頁內容進行最終檢查。學習或複習將靜態網頁部署到GitHub Pages的基本流程。", vocab: "`Deployment` (n. - 部署), `Version control` (n. - 版本控制)", id:"m4w4d7" },
+                                { date: "2025/12/29", dayOfWeek: "星期一", title: "計畫緩衝/最終整理", task: "計畫緩衝、最終整理、成果彙整與準備提交時間。", vocab: "", id:"m4w4d8" },
+                                { date: "2025/12/30", dayOfWeek: "星期二", title: "計畫緩衝/最終整理", task: "計畫緩衝、最終整理、成果彙整與準備提交時間。", vocab: "", id:"m4w4d9" },
+                                { date: "2025/12/31", dayOfWeek: "星期三", title: "計畫緩衝/最終整理", task: "計畫緩衝、最終整理、成果彙整與準備提交時間。", vocab: "", id:"m4w4d10" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        const mockQuizData = [
+            {
+                question: "獸醫學的核心目標之一是什麼？",
+                options: ["僅治療寵物疾病", "保障動物福利與人類健康", "研究動物行為", "開發新型寵物食品"],
+                answer: "保障動物福利與人類健康",
+                topic: "概論"
+            },
+            {
+                question: "「Zoonosis」指的是什麼？",
+                options: ["動物園學", "人畜共通傳染病", "動物營養學", "獸醫外科學"],
+                answer: "人畜共通傳染病",
+                topic: "概論"
+            },
+            {
+                question: "下列何者是「健康一體 (One Health)」理念的核心精神？",
+                options: ["人類健康至上", "動物健康優先於環境", "動物、人類與環境健康密不可分", "僅關注傳染病防治"],
+                answer: "動物、人類與環境健康密不可分",
+                topic: "健康一體"
+            },
+            {
+                question: "AVMA 是哪個國家的獸醫協會簡稱？",
+                options: ["英國", "加拿大", "澳洲", "美國"],
+                answer: "美國",
+                topic: "倫理"
+            },
+            {
+                question: "下列何者不屬於動物福利的「五大自由」之一？",
+                options: ["免於飢餓與乾渴的自由", "免於不適的自由", "表達正常行為的自由", "擁有主人的自由"],
+                answer: "擁有主人的自由",
+                topic: "動物福利"
+            }
+        ];
+
+        let taskStatus = {};
+        let studyProgressChartInstance = null;
+        let assessmentResultChartInstance = null;
+        let infographicAssessmentChartInstance = null;
+
+
+        function processChartLabels(labels, maxLength = 16) {
+            return labels.map(label => {
+                if (typeof label === 'string' && label.length > maxLength) {
+                    const words = label.split(' ');
+                    const lines = [];
+                    let currentLine = '';
+                    words.forEach(word => {
+                        if ((currentLine + word).length > maxLength && currentLine.length > 0) {
+                            lines.push(currentLine.trim());
+                            currentLine = word + ' ';
+                        } else {
+                            currentLine += word + ' ';
+                        }
+                    });
+                    lines.push(currentLine.trim());
+                    return lines;
+                }
+                return label;
+            });
+        }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTaskStatus();
+            renderStudyPlan();
+            renderLearningContentTable();
+            updateProgressOverview();
+            setupEventListeners();
+            renderMockQuiz();
+            renderInfographicAssessmentChart();
+            
+            const initialTab = window.location.hash ? window.location.hash.substring(1) : 'home';
+            activateTab(initialTab);
+        });
+
+        function setupEventListeners() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const tabName = link.dataset.tab;
+                    activateTab(tabName);
+                    window.location.hash = tabName;
+
+                    const mobileMenu = document.getElementById('mobileMenu');
+                    if (mobileMenu.classList.contains('open')) {
+                       mobileMenu.classList.remove('open');
+                       mobileMenu.style.transform = 'translateX(-100%)';
+                    }
+                });
+            });
+
+            document.getElementById('mobileMenuButton').addEventListener('click', () => {
+                const mobileMenu = document.getElementById('mobileMenu');
+                mobileMenu.classList.add('open');
+                mobileMenu.style.transform = 'translateX(0)';
+            });
+
+            document.getElementById('closeMobileMenuButton').addEventListener('click', () => {
+                const mobileMenu = document.getElementById('mobileMenu');
+                mobileMenu.classList.remove('open');
+                mobileMenu.style.transform = 'translateX(-100%)';
+            });
+            
+            document.getElementById('mobileMenu').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('mobileMenu')) {
+                    const mobileMenu = document.getElementById('mobileMenu');
+                    mobileMenu.classList.remove('open');
+                    mobileMenu.style.transform = 'translateX(-100%)';
+                }
+            });
+
+            document.getElementById('submitQuizBtn').addEventListener('click', submitMockQuiz);
+            
+            document.getElementById('monthFilter').addEventListener('change', () => renderLearningContentTable(currentSort.column, currentSort.direction));
+            document.getElementById('taskSearch').addEventListener('input', () => renderLearningContentTable(currentSort.column, currentSort.direction));
+
+            document.querySelectorAll('#learningContentTableBody').forEach(body => {
+                if (body.parentElement.tagName === 'TABLE') {
+                    body.parentElement.querySelectorAll('th[data-sort]').forEach(th => {
+                        th.addEventListener('click', () => {
+                            const column = th.dataset.sort;
+                            const direction = (column === currentSort.column && currentSort.direction === 'asc') ? 'desc' : 'asc';
+                            renderLearningContentTable(column, direction);
+                        });
+                    });
+                }
+            });
+             document.getElementById('exportProgressBtn').addEventListener('click', exportProgressToCSV);
+        }
+
+        function activateTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            
+            const activeContent = document.getElementById(tabName);
+            if (activeContent) activeContent.classList.add('active');
+            
+            document.querySelectorAll(`.nav-link[data-tab="${tabName}"]`).forEach(link => link.classList.add('active'));
+            
+            if (tabName === 'infographic') { // Ensure chart renders when tab is active
+                 if (!infographicAssessmentChartInstance) { // Render only if not already rendered
+                    renderInfographicAssessmentChart();
+                } else { // If already rendered, ensure it's updated/resized if necessary
+                    infographicAssessmentChartInstance.resize();
+                }
+            }
+        }
+
+        function renderStudyPlan() {
+            const container = document.getElementById('studyPlanContainer');
+            container.innerHTML = ''; 
+            studyData.months.forEach(month => {
+                const monthDiv = document.createElement('div');
+                monthDiv.className = 'mb-8 p-6 bg-gray-900 rounded-lg shadow'; 
+                monthDiv.innerHTML = `
+                    <h3 class="text-2xl font-semibold text-subtitle-accent mb-2">${month.name}</h3>
+                    <p class="text-gray-400 mb-4 text-sm"><strong>本月整體學習目標：</strong>${month.overallGoal}</p>
+                `;
+                
+                const weeksGrid = document.createElement('div');
+                weeksGrid.className = 'space-y-4';
+
+                month.weeks.forEach(week => {
+                    const weekDiv = document.createElement('div');
+                    weekDiv.className = 'p-4 bg-gray-800 rounded-md shadow-sm'; 
+                    weekDiv.innerHTML = `<h4 class="text-xl font-medium text-yellow-300 mb-3 cursor-pointer week-toggle">${week.name} ▼</h4>`;
+                    
+                    const daysContainer = document.createElement('div');
+                    daysContainer.className = 'task-day-content pl-4 border-l-2 border-amber-500 space-y-3';
+                    daysContainer.style.display = 'none'; 
+
+                    week.days.forEach(day => {
+                        const dayDiv = document.createElement('div');
+                        dayDiv.className = 'py-2';
+                        dayDiv.innerHTML = `
+                            <p class="font-semibold text-gray-200">${day.date}, ${day.dayOfWeek}: ${day.title}</p>
+                            <p class="text-gray-400 text-sm mt-1">${day.task}</p>
+                            ${day.vocab ? `<p class="text-xs text-yellow-300 mt-1"><strong>詞彙:</strong> ${day.vocab.replace(/`(.*?)`/g, '<code class=\"text-amber-400\">$1</code>')}</p>` : ''}
+                            <label class="inline-flex items-center mt-2 text-sm text-gray-300">
+                                <input type="checkbox" data-task-id="${day.id}" class="form-checkbox h-4 w-4 text-amber-500 border-gray-600 rounded focus:ring-amber-400 task-checkbox" ${taskStatus[day.id] ? 'checked' : ''}>
+                                <span class="ml-2">完成</span>
+                            </label>
+                        `;
+                        daysContainer.appendChild(dayDiv);
+                    });
+                    weekDiv.appendChild(daysContainer);
+                    weeksGrid.appendChild(weekDiv);
+
+                    weekDiv.querySelector('.week-toggle').addEventListener('click', function() {
+                        const content = this.nextElementSibling;
+                        content.style.display = content.style.display === 'none' ? 'block' : 'none';
+                        this.textContent = this.textContent.includes('▼') ? this.textContent.replace('▼', '▲') : this.textContent.replace('▲', '▼');
+                    });
+                });
+                monthDiv.appendChild(weeksGrid);
+                container.appendChild(monthDiv);
+            });
+
+            document.querySelectorAll('.task-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', (e) => {
+                    taskStatus[e.target.dataset.taskId] = e.target.checked;
+                    saveTaskStatus();
+                    updateProgressOverview();
+                });
+            });
+        }
+        
+        function loadTaskStatus() {
+            const storedStatus = localStorage.getItem('studyPlanTaskStatus_BGY_v2'); 
+            if (storedStatus) {
+                taskStatus = JSON.parse(storedStatus);
+            }
+        }
+
+        function saveTaskStatus() {
+            localStorage.setItem('studyPlanTaskStatus_BGY_v2', JSON.stringify(taskStatus));
+        }
+
+        function updateProgressOverview() {
+            let totalTasks = 0;
+            let completedTasks = 0;
+            const monthlyTasks = {};
+            const monthlyCompleted = {};
+
+            studyData.months.forEach(month => {
+                monthlyTasks[month.id] = 0;
+                monthlyCompleted[month.id] = 0;
+                month.weeks.forEach(week => {
+                    week.days.forEach(day => {
+                        if (day.task) { 
+                            totalTasks++;
+                            monthlyTasks[month.id]++;
+                            if (taskStatus[day.id]) {
+                                completedTasks++;
+                                monthlyCompleted[month.id]++;
+                            }
+                        }
+                    });
+                });
+            });
+
+            const overallCompletionRate = totalTasks > 0 ? (completedTasks / totalTasks * 100).toFixed(1) : 0;
+            document.getElementById('totalCompletionRate').textContent = `${overallCompletionRate}%`;
+            document.getElementById('totalProgressBar').style.width = `${overallCompletionRate}%`;
+
+            const monthlyRatesContainer = document.getElementById('monthlyCompletionRates');
+            monthlyRatesContainer.innerHTML = '';
+            const chartLabels = [];
+            const chartData = [];
+
+            studyData.months.forEach(month => {
+                const rate = monthlyTasks[month.id] > 0 ? (monthlyCompleted[month.id] / monthlyTasks[month.id] * 100).toFixed(1) : 0;
+                const monthNameShort = month.name.split('：')[0];
+                chartLabels.push(monthNameShort);
+                chartData.push(parseFloat(rate));
+
+                const rateDiv = document.createElement('div');
+                rateDiv.className = 'p-3 bg-gray-800 rounded shadow';
+                rateDiv.innerHTML = `
+                    <p class="text-sm font-medium text-gray-300">${monthNameShort}</p>
+                    <p class="text-lg font-bold text-content-accent">${rate}%</p>
+                    <div class="w-full progress-bar-bg rounded-full h-1.5 mt-1">
+                        <div class="progress-bar-fill h-1.5 rounded-full" style="width: ${rate}%"></div>
+                    </div>
+                `;
+                monthlyRatesContainer.appendChild(rateDiv);
+            });
+            
+            renderStudyProgressChart(chartLabels, chartData);
+        }
+
+        function renderStudyProgressChart(labels, data) {
+            const ctx = document.getElementById('studyProgressChart').getContext('2d');
+            if (studyProgressChartInstance) {
+                studyProgressChartInstance.destroy();
+            }
+            studyProgressChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '各月完成率 (%)',
+                        data: data,
+                        backgroundColor: 'rgba(245, 158, 11, 0.6)', 
+                        borderColor: 'rgba(217, 119, 6, 1)', 
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: { color: '#9ca3af' }, 
+                            grid: { color: '#374151' } 
+                        },
+                        x: {
+                            ticks: { color: '#9ca3af' }, 
+                            grid: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: { color: '#e5e7eb' } 
+                        },
+                        tooltip: {
+                            backgroundColor: '#1f2937',
+                            titleColor: '#e5e7eb',
+                            bodyColor: '#d1d5db',
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.formattedValue}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderMockQuiz() {
+            const form = document.getElementById('mockQuizForm');
+            form.innerHTML = '';
+            mockQuizData.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'p-3 bg-gray-800 rounded-md'; 
+                let optionsHtml = '';
+                q.options.forEach(opt => {
+                    optionsHtml += `
+                        <label class="block text-gray-300 hover:bg-gray-700 p-2 rounded-md cursor-pointer">
+                            <input type="radio" name="question${index}" value="${opt}" class="form-radio mr-2 text-amber-500 focus:ring-amber-400">
+                            ${opt}
+                        </label>
+                    `;
+                });
+                questionDiv.innerHTML = `
+                    <p class="font-medium text-gray-200 mb-2">${index + 1}. ${q.question}</p>
+                    <div class="space-y-1">${optionsHtml}</div>
+                `;
+                form.appendChild(questionDiv);
+            });
+        }
+
+        function submitMockQuiz() {
+            let score = 0;
+            const topicScores = {};
+            const topicTotals = {};
+
+            mockQuizData.forEach((q, index) => {
+                const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+                if (!topicScores[q.topic]) {
+                    topicScores[q.topic] = 0;
+                    topicTotals[q.topic] = 0;
+                }
+                topicTotals[q.topic]++;
+                if (selectedOption && selectedOption.value === q.answer) {
+                    score++;
+                    topicScores[q.topic]++;
+                }
+            });
+
+            const percentage = (score / mockQuizData.length * 100).toFixed(1);
+            document.getElementById('quizScore').textContent = `您的得分：${score} / ${mockQuizData.length} (${percentage}%)`;
+            
+            const analysisText = percentage >= 80 ? "表現優異！您對這些範例內容有非常紮實的理解。" :
+                                 percentage >= 60 ? "表現良好！對大部分範例內容有不錯的掌握。" :
+                                 "尚有進步空間。請針對答錯的題目加強複習。";
+            document.getElementById('quizAnalysis').textContent = analysisText;
+            document.getElementById('quizResult').classList.remove('hidden');
+
+            const chartLabels = Object.keys(topicScores);
+            const chartData = chartLabels.map(topic => (topicScores[topic] / topicTotals[topic] * 100).toFixed(1));
+            renderAssessmentResultChart(chartLabels, chartData, 'assessmentResultChart');
+        }
+        
+        function renderAssessmentResultChart(labels, data, canvasId) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            let chartInstance;
+            if (canvasId === 'assessmentResultChart' && assessmentResultChartInstance) {
+                assessmentResultChartInstance.destroy();
+                chartInstance = assessmentResultChartInstance;
+            } else if (canvasId === 'infographicAssessmentChart' && infographicAssessmentChartInstance) {
+                infographicAssessmentChartInstance.destroy();
+                chartInstance = infographicAssessmentChartInstance;
+            }
+
+            chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: processChartLabels(labels, (canvasId === 'infographicAssessmentChart' ? 10 : 16)), // Shorter labels for infographic
+                    datasets: [{
+                        label: '各主題答對率 (%)',
+                        data: data,
+                        backgroundColor: 'rgba(250, 204, 21, 0.6)', 
+                        borderColor: 'rgba(234, 179, 8, 1)', 
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y', 
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: { color: '#9ca3af', font: { family: "'Noto Sans TC', sans-serif"} },
+                            grid: { color: '#374151' }
+                        },
+                        y: {
+                            ticks: { color: '#d1d5db', font: { family: "'Noto Sans TC', sans-serif", size: (canvasId === 'infographicAssessmentChart' ? 9 : 10) } },
+                            grid: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: { color: '#e5e7eb', font: { family: "'Noto Sans TC', sans-serif"} }
+                        },
+                         tooltip: {
+                            backgroundColor: '#1f2937',
+                            titleColor: '#e5e7eb',
+                            bodyColor: '#d1d5db',
+                            titleFont: { family: "'Noto Sans TC', sans-serif" },
+                            bodyFont: { family: "'Noto Sans TC', sans-serif" },
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    const item = tooltipItems[0];
+                                    let label = item.chart.data.labels[item.dataIndex];
+                                    if (Array.isArray(label)) {
+                                      return label.join(' ');
+                                    } else {
+                                      return label;
+                                    }
+                                },
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.formattedValue}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            if (canvasId === 'assessmentResultChart') assessmentResultChartInstance = chartInstance;
+            if (canvasId === 'infographicAssessmentChart') infographicAssessmentChartInstance = chartInstance;
+        }
+
+        function renderInfographicAssessmentChart() {
+            const infographicLabels = ['獸醫學概論', '倫理與法規', '物種多樣性', '研究技能', '健康一體'];
+            const infographicData = [85, 78, 92, 75, 88]; // Sample data
+            renderAssessmentResultChart(infographicLabels, infographicData, 'infographicAssessmentChart');
+        }
+        
+        let allLearningTasks = [];
+        let currentSort = { column: 'date', direction: 'asc' };
+
+        function getAllLearningTasks() {
+            if (allLearningTasks.length > 0) return allLearningTasks;
+            studyData.months.forEach(month => {
+                month.weeks.forEach(week => {
+                    week.days.forEach(day => {
+                        if (day.task) { 
+                             allLearningTasks.push({
+                                date: day.date,
+                                task: day.title + (day.task.length > 50 ? ": " + day.task.substring(0,50) + "..." : ": " + day.task),
+                                goal: day.task 
+                            });
+                        }
+                    });
+                });
+            });
+            return allLearningTasks;
+        }
+
+        function renderLearningContentTable(sortColumn = 'date', sortDirection = 'asc') {
+            currentSort = { column: sortColumn, direction: sortDirection };
+            const tableBody = document.getElementById('learningContentTableBody');
+            const monthFilter = document.getElementById('monthFilter').value;
+            const searchTerm = document.getElementById('taskSearch').value.toLowerCase();
+            const noResultsMessage = document.getElementById('noResultsMessage');
+            
+            tableBody.innerHTML = '';
+            let tasksToDisplay = getAllLearningTasks();
+
+            if (monthFilter) {
+                tasksToDisplay = tasksToDisplay.filter(task => task.date.startsWith(monthFilter));
+            }
+            if (searchTerm) {
+                tasksToDisplay = tasksToDisplay.filter(task => 
+                    task.task.toLowerCase().includes(searchTerm) || 
+                    task.goal.toLowerCase().includes(searchTerm) ||
+                    task.date.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            tasksToDisplay.sort((a, b) => {
+                let valA = a[sortColumn];
+                let valB = b[sortColumn];
+                if (sortColumn === 'date') { 
+                    valA = new Date(valA.replace(/\//g, '-'));
+                    valB = new Date(valB.replace(/\//g, '-'));
+                } else {
+                    valA = String(valA).toLowerCase();
+                    valB = String(valB).toLowerCase();
+                }
+
+                if (valA < valB) return sortDirection === 'asc' ? -1 : 1;
+                if (valA > valB) return sortDirection === 'asc' ? 1 : -1;
+                return 0;
+            });
+            
+            document.querySelectorAll('th[data-sort]').forEach(th => {
+                th.innerHTML = th.textContent.replace(/ [⇅↑↓]/, '') + 
+                               (th.dataset.sort === sortColumn ? (sortDirection === 'asc' ? ' ↑' : ' ↓') : ' ⇅');
+            });
+
+            if (tasksToDisplay.length === 0) {
+                noResultsMessage.classList.remove('hidden');
+            } else {
+                noResultsMessage.classList.add('hidden');
+                tasksToDisplay.forEach(task => {
+                    const row = tableBody.insertRow();
+                    row.className = "hover:bg-gray-700 transition-colors duration-150";
+                    row.insertCell().textContent = task.date;
+                    row.insertCell().textContent = task.task;
+                    row.insertCell().textContent = task.goal.length > 100 ? task.goal.substring(0,100) + "..." : task.goal;
+                    row.cells[0].className = "px-4 py-3 text-sm text-gray-300";
+                    row.cells[1].className = "px-4 py-3 text-sm text-gray-300";
+                    row.cells[2].className = "px-4 py-3 text-sm text-gray-300";
+                });
+            }
+        }
+
+        function exportProgressToCSV() {
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "任務ID,日期,星期,標題,任務內容,英文詞彙,是否完成\n";
+
+            studyData.months.forEach(month => {
+                month.weeks.forEach(week => {
+                    week.days.forEach(day => {
+                        if (day.task) {
+                            const isCompleted = taskStatus[day.id] ? "是" : "否";
+                            const row = [
+                                `"${day.id}"`,
+                                `"${day.date}"`,
+                                `"${day.dayOfWeek}"`,
+                                `"${day.title.replace(/"/g, '""')}"`,
+                                `"${day.task.replace(/"/g, '""')}"`,
+                                `"${(day.vocab || '').replace(/"/g, '""')}"`,
+                                `"${isCompleted}"`
+                            ].join(",");
+                            csvContent += row + "\n";
+                        }
+                    });
+                });
+            });
+            
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "自主學習計畫進度報告.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+    </script>
+</body>
+</html>
