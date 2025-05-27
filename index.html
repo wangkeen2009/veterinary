@@ -250,6 +250,30 @@
             font-size: 0.875rem;
             margin-top: 0.5rem;
         }
+        .dark .reference-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #374151; /* gray-700 */
+        }
+        .dark .reference-item:last-child {
+            border-bottom: none;
+        }
+        .dark .reference-title {
+            font-weight: 600;
+            color: #fde047; /* yellow-300 */
+        }
+        .dark .reference-source {
+            font-size: 0.875rem;
+            color: #9ca3af; /* gray-400 */
+        }
+        .dark .reference-link {
+            color: #f59e0b; /* amber-500 */
+            text-decoration: underline;
+            font-size: 0.875rem;
+        }
+        .dark .reference-link:hover {
+            color: #d97706; /* amber-600 */
+        }
 
     </style>
     <!-- Visualization & Content Choices:
@@ -259,7 +283,7 @@
         - 學習內容清單: Interactive HTML table (JS for sorting/filtering).
         - 資訊圖表: Recreated key infographic elements (stat cards, timeline, Chart.js chart) adapted to dark theme.
         - 心得反思: Textual content.
-        - 參考資料: Formatted list.
+        - 參考資料: Curated list of relevant academic and institutional resources with links.
         - Justification: Methods chosen for interactivity, clarity, and educational purpose.
         - Library/Method: Tailwind CSS, Vanilla JS, Chart.js (CDN).
         -->
@@ -308,9 +332,9 @@
             <div class="bg-card shadow-lg rounded-lg p-6 md:p-8">
                 <div class="audio-player-container mb-8">
                     <h3 class="text-xl font-semibold text-subtitle-accent mb-3">計畫語音摘要</h3>
-                    <audio controls src="Beyond_Cats_and_Dogs__Unmasking_the_Astonishingly_Diverse_World_of_Veterinary_Medicine.mp3" class="w-full">
+                    <audio controls src="placeholder-audio.mp3" class="w-full">
                     </audio>
-                    <p class="text-sm text-gray-500 mt-2">（王可恩的自主學習Podcast簡介）</p>
+                    <p class="text-sm text-gray-500 mt-2">（提醒：請將 'placeholder-audio.mp3' 替換為實際的語音檔案連結。）</p>
                 </div>
 
                 <h2 class="text-2xl md:text-3xl font-semibold text-title-accent mb-6 border-b border-title-accent pb-3">計畫總覽</h2>
@@ -607,34 +631,96 @@
         <div id="references" class="tab-content">
             <div class="bg-card shadow-lg rounded-lg p-6 md:p-8">
                 <h2 class="text-2xl md:text-3xl font-semibold text-title-accent mb-6 border-b border-title-accent pb-3">參考資料</h2>
-                <p class="text-gray-300 mb-6 text-lg">本頁面彙整了在自主學習計畫過程中建議參考的各類資源。良好的學術習慣包括詳細記錄並正確引用所有參考資料。在尋找資料時，請優先考慮中文學術文獻，並確保來源的可靠性與公開取用性。以下提供參考資料的分類與引用範例，您應在學習過程中逐步填充此清單。</p>
+                <p class="text-gray-300 mb-6 text-lg">本頁面彙整了在自主學習計畫過程中，建議參考的各類中文學術文獻與資源。這些資料有助於您完成每日學習任務，並深化對各主題的理解。資料來源以可公開取得或下載的學術性、機構性資源為主。</p>
 
                 <section class="mb-6">
-                    <h3 class="text-xl font-semibold text-subtitle-accent mb-3">彙整格式指引</h3>
-                    <p class="text-gray-300">建議按資料類型分類，並依作者姓氏或參考時間排序。</p>
+                    <h3 class="text-xl font-semibold text-subtitle-accent mb-4">第一個月：獸醫學概論與倫理基礎</h3>
+                    <div class="reference-item">
+                        <p class="reference-title">台灣獸醫師誓詞與倫理規範</p>
+                        <p class="reference-source">中華民國獸醫師公會全國聯合會</p>
+                        <a href="https://www.nvma.org.tw/declaration.html" target="_blank" rel="noopener noreferrer" class="reference-link">查看誓詞與規範</a>
+                        <p class="text-xs text-gray-500 mt-1">說明：了解台灣獸醫師執業的基本倫理要求。</p>
+                    </div>
+                    <div class="reference-item">
+                        <p class="reference-title">「健康一體」 (One Health)</p>
+                        <p class="reference-source">衛生福利部疾病管制署</p>
+                        <a href="https://www.cdc.gov.tw/Category/Page/wD9_3LADw_t2jR20iQd7gA" target="_blank" rel="noopener noreferrer" class="reference-link">健康一體專區</a>
+                        <p class="text-xs text-gray-500 mt-1">說明：認識「健康一體」的核心概念、重要性及台灣的推動現況。</p>
+                    </div>
+                     <div class="reference-item">
+                        <p class="reference-title">台灣獸醫學雜誌 (Taiwan Veterinary Journal)</p>
+                        <p class="reference-source">華藝線上圖書館 (Airiti Library) 或 各大學術典藏庫</p>
+                        <a href="https://www.airitilibrary.com/Publication/alPublicationJournal?PublicationID=16826485" target="_blank" rel="noopener noreferrer" class="reference-link">期刊瀏覽 (部分公開取用)</a>
+                        <p class="text-xs text-gray-500 mt-1">說明：可搜尋獸醫學史、倫理、動物福利等主題的相關文章摘要或公開取用文獻。</p>
+                    </div>
                 </section>
 
                 <section class="mb-6">
-                    <h3 class="text-xl font-semibold text-subtitle-accent mb-3">學生應記錄的引用資訊範例</h3>
-                    <ul class="list-disc list-inside text-gray-300 space-y-3">
-                        <li><strong>學術期刊文章:</strong> 作者姓名 (發表年份)。文章標題。期刊名稱，卷數(期數)，頁碼範圍。DOI 或 網址。<br><em>範例：王小明、陳大華 (2023)。台灣地區犬隻心絲蟲感染率之五年回溯性研究。台灣獸醫學雜誌，49(1)，1-10。 <a href="#" class="text-content-accent hover:underline">https://doi.org/xxxxxx</a></em></li>
-                        <li><strong>專書或書籍章節:</strong> 作者或編者姓名 (出版年份)。書名 (版次)。出版地：出版商。</li>
-                        <li><strong>政府或機構報告:</strong> 機構名稱 (年份)。報告標題 (報告編號，若有)。網址。取用日期。</li>
-                        <li><strong>專業組織網站/網頁:</strong> 組織名稱 (網頁發布或更新年份，若有)。網頁標題。網址。取用日期。</li>
-                    </ul>
+                    <h3 class="text-xl font-semibold text-subtitle-accent mb-4">第二個月：伴侶動物醫學與臨床實務初探</h3>
+                     <div class="reference-item">
+                        <p class="reference-title">犬貓核心疫苗與非核心疫苗注射指南</p>
+                        <p class="reference-source">世界小動物獸醫師協會 (WSAVA) - 疫苗接種指南小組 (VGG)</p>
+                        <a href="https://wsava.org/wp-content/uploads/2020/01/WSAVA-vaccination-guidelines-2015-Chinese-Traditional.pdf" target="_blank" rel="noopener noreferrer" class="reference-link">2015年犬貓疫苗注射指南 (繁體中文PDF)</a>
+                        <p class="text-xs text-gray-500 mt-1">說明：了解國際通用的犬貓疫苗接種建議與原則。</p>
+                    </div>
+                    <div class="reference-item">
+                        <p class="reference-title">寵物食品營養資訊</p>
+                        <p class="reference-source">行政院農業委員會動物保護資訊網 (現為農業部)</p>
+                        <a href="https://animal.moa.gov.tw/Frontend/Knowledges/PetFood" target="_blank" rel="noopener noreferrer" class="reference-link">寵物食品專區</a>
+                        <p class="text-xs text-gray-500 mt-1">說明：提供寵物食品選擇、標示及相關法規資訊。</p>
+                    </div>
+                     <div class="reference-item">
+                        <p class="reference-title">國立臺灣大學獸醫專業學院 - 教學資源</p>
+                        <p class="reference-source">國立臺灣大學</p>
+                        <a href="https://www.vm.ntu.edu.tw/web/resource/list.jsp?lang=tw&type=EDUCATION" target="_blank" rel="noopener noreferrer" class="reference-link">教學資源列表</a>
+                        <p class="text-xs text-gray-500 mt-1">說明：可查找伴侶動物相關的衛教文章或公開課程講義。</p>
+                    </div>
                 </section>
 
-                <section>
-                    <h3 class="text-xl font-semibold text-subtitle-accent mb-3">建議尋找的資料來源類型</h3>
-                    <ul class="list-disc list-inside text-gray-300 space-y-2">
-                        <li>國內大學獸醫學院/系所</li>
-                        <li>政府相關部門</li>
-                        <li>國內外獸醫專業學會/協會</li>
-                        <li>學術期刊資料庫</li>
-                        <li>國際組織 (如：WOAH, FAO, WHO)</li>
-                    </ul>
-                    <p class="mt-4 text-gray-400 italic">(本頁面將由學習者在執行計畫過程中，根據每日學習任務所參考的具體資料逐步填充與完善。)</p>
+                <section class="mb-6">
+                    <h3 class="text-xl font-semibold text-subtitle-accent mb-4">第三個月：經濟動物、野生動物與公共衛生獸醫學</h3>
+                    <div class="reference-item">
+                        <p class="reference-title">農業部動植物防疫檢疫署 - 業務主題</p>
+                        <p class="reference-source">農業部動植物防疫檢疫署 (BAPHIQ)</p>
+                        <a href="https://www.baphiq.gov.tw/theme_list.php?theme=animal_epidemic" target="_blank" rel="noopener noreferrer" class="reference-link">動物防疫主題</a>
+                        <p class="text-xs text-gray-500 mt-1">說明：提供台灣動物傳染病、人畜共通疾病的最新疫情、法規及防治資訊。</p>
+                    </div>
+                    <div class="reference-item">
+                        <p class="reference-title">特有生物研究保育中心 - 研究成果</p>
+                        <p class="reference-source">農業部生物多樣性研究所特有生物研究保育中心 (TESRI)</p>
+                        <a href="https://www.tesri.gov.tw/A7_1" target="_blank" rel="noopener noreferrer" class="reference-link">研究出版品</a>
+                        <p class="text-xs text-gray-500 mt-1">說明：可查找關於台灣野生動物疾病、救傷及保育研究的報告與論文。</p>
+                    </div>
+                    <div class="reference-item">
+                        <p class="reference-title">世界動物衛生組織 (WOAH) - 動物疾病資訊</p>
+                        <p class="reference-source">WOAH (World Organisation for Animal Health)</p>
+                        <a href="https://www.woah.org/en/what-we-do/animal-health-and-welfare/animal-diseases/" target="_blank" rel="noopener noreferrer" class="reference-link">Animal Diseases (英文，可利用翻譯工具)</a>
+                        <p class="text-xs text-gray-500 mt-1">說明：提供全球重要動物疾病的資訊卡，了解國際關注的動物健康議題。</p>
+                    </div>
                 </section>
+
+                 <section>
+                    <h3 class="text-xl font-semibold text-subtitle-accent mb-4">第四個月：獸醫學特殊領域、研究與未來展望</h3>
+                    <div class="reference-item">
+                        <p class="reference-title">實驗動物人道管理</p>
+                        <p class="reference-source">行政院農業委員會 - 動物保護資訊網 (現為農業部)</p>
+                        <a href="https://animal.moa.gov.tw/Frontend/Knowledges/ExperimentalAnimal" target="_blank" rel="noopener noreferrer" class="reference-link">實驗動物專區</a>
+                        <p class="text-xs text-gray-500 mt-1">說明：了解台灣實驗動物倫理、法規及3R原則的相關資訊。</p>
+                    </div>
+                    <div class="reference-item">
+                        <p class="reference-title">獸醫最新研究趨勢 (可透過關鍵字搜尋)</p>
+                        <p class="reference-source">Google Scholar (學術搜尋)</p>
+                        <a href="https://scholar.google.com/" target="_blank" rel="noopener noreferrer" class="reference-link">Google Scholar</a>
+                        <p class="text-xs text-gray-500 mt-1">說明：使用「獸醫 人工智慧」、「獸醫 基因體學」、「veterinary telemedicine」等關鍵字搜尋，了解新興科技在獸醫領域的應用研究摘要。</p>
+                    </div>
+                     <div class="reference-item">
+                        <p class="reference-title">國立中興大學獸醫學院 - 研究成果</p>
+                        <p class="reference-source">國立中興大學</p>
+                        <a href="https://www.vm.nchu.edu.tw/page/research_results/index.aspx?kind=118" target="_blank" rel="noopener noreferrer" class="reference-link">研究成果列表</a>
+                        <p class="text-xs text-gray-500 mt-1">說明：可查找獸醫病理、藥理、分子生物等特殊領域的研究論文或摘要。</p>
+                    </div>
+                </section>
+                <p class="mt-6 text-sm text-gray-400 italic">提醒：部分學術期刊論文可能需要透過學校圖書館資源或付費才能獲取全文。此處提供的連結主要為公開資訊或摘要頁面，請善用學校或公共圖書館的學術資料庫資源進行更深入的探索。</p>
             </div>
         </div>
     </main>
@@ -1373,15 +1459,15 @@
         function renderLearningContentTable(sortColumn = 'date', sortDirection = 'asc') {
             currentSort = { column: sortColumn, direction: sortDirection };
             const tableBody = document.getElementById('learningContentTableBody');
-            const monthFilterValue = document.getElementById('monthFilter').value; // Corrected variable name
+            const monthFilterValue = document.getElementById('monthFilter').value; 
             const searchTerm = document.getElementById('taskSearch').value.toLowerCase();
             const noResultsMessage = document.getElementById('noResultsMessage');
             
             tableBody.innerHTML = '';
             let tasksToDisplay = getAllLearningTasks();
 
-            if (monthFilterValue) { // Corrected variable name
-                tasksToDisplay = tasksToDisplay.filter(task => task.date.startsWith(monthFilterValue)); // Corrected variable name
+            if (monthFilterValue) { 
+                tasksToDisplay = tasksToDisplay.filter(task => task.date.startsWith(monthFilterValue)); 
             }
             if (searchTerm) {
                 tasksToDisplay = tasksToDisplay.filter(task => 
