@@ -266,6 +266,20 @@
             font-size: 0.875rem;
             color: #9ca3af; /* gray-400 */
         }
+         .dark .reference-type {
+            font-size: 0.75rem; /* text-xs */
+            color: #f59e0b; /* amber-500 */
+            background-color: #4b5563; /* gray-600 */
+            padding: 0.125rem 0.5rem; /* py-0.5 px-2 */
+            border-radius: 0.25rem; /* rounded-md */
+            display: inline-block;
+            margin-bottom: 0.25rem;
+        }
+        .dark .reference-description {
+            font-size: 0.875rem; /* text-sm */
+            color: #d1d5db; /* gray-300 */
+            margin-top: 0.25rem;
+        }
         .dark .reference-link {
             color: #f59e0b; /* amber-500 */
             text-decoration: underline;
@@ -334,7 +348,7 @@
                     <h3 class="text-xl font-semibold text-subtitle-accent mb-3">計畫語音摘要</h3>
                     <audio controls src="placeholder-audio.mp3" class="w-full">
                     </audio>
-                    <p class="text-sm text-gray-500 mt-2">（這是王可恩的自主學習計畫Podcast介紹，歡迎收聽。）</p>
+                    <p class="text-sm text-gray-500 mt-2">（王可恩的自主學習計畫Podcast介紹。）</p>
                 </div>
 
                 <h2 class="text-2xl md:text-3xl font-semibold text-title-accent mb-6 border-b border-title-accent pb-3">計畫總覽</h2>
@@ -637,21 +651,38 @@
                     <h3 class="text-xl font-semibold text-subtitle-accent mb-4">第一個月：獸醫學概論與倫理基礎</h3>
                     <div class="reference-item">
                         <p class="reference-title">台灣獸醫師誓詞與倫理規範</p>
-                        <p class="reference-source">中華民國獸醫師公會全國聯合會</p>
+                        <p class="reference-source">來源：中華民國獸醫師公會全國聯合會</p>
+                        <p class="reference-type">官方指引</p>
+                        <p class="reference-description">說明：了解台灣獸醫師執業的基本倫理要求與專業承諾。</p>
                         <a href="https://www.nvma.org.tw/declaration.html" target="_blank" rel="noopener noreferrer" class="reference-link">查看誓詞與規範</a>
-                        <p class="text-xs text-gray-500 mt-1">說明：了解台灣獸醫師執業的基本倫理要求。</p>
                     </div>
                     <div class="reference-item">
                         <p class="reference-title">「健康一體」 (One Health)</p>
-                        <p class="reference-source">衛生福利部疾病管制署</p>
+                        <p class="reference-source">來源：衛生福利部疾病管制署</p>
+                        <p class="reference-type">政府資訊</p>
+                        <p class="reference-description">說明：認識「健康一體」的核心概念、重要性及台灣的推動現況，了解獸醫在此概念中的角色。</p>
                         <a href="https://www.cdc.gov.tw/Category/Page/wD9_3LADw_t2jR20iQd7gA" target="_blank" rel="noopener noreferrer" class="reference-link">健康一體專區</a>
-                        <p class="text-xs text-gray-500 mt-1">說明：認識「健康一體」的核心概念、重要性及台灣的推動現況。</p>
                     </div>
                      <div class="reference-item">
-                        <p class="reference-title">台灣獸醫學雜誌 (Taiwan Veterinary Journal)</p>
-                        <p class="reference-source">華藝線上圖書館 (Airiti Library) 或 各大學術典藏庫</p>
-                        <a href="https://www.airitilibrary.com/Publication/alPublicationJournal?PublicationID=16826485" target="_blank" rel="noopener noreferrer" class="reference-link">期刊瀏覽 (部分公開取用)</a>
-                        <p class="text-xs text-gray-500 mt-1">說明：可搜尋獸醫學史、倫理、動物福利等主題的相關文章摘要或公開取用文獻。</p>
+                        <p class="reference-title">台灣獸醫學發展史略</p>
+                        <p class="reference-source">來源：賴秀穗 (2007)，台灣大學獸醫學系</p>
+                        <p class="reference-type">學術文章/報告</p>
+                        <p class="reference-description">說明：初步了解台灣獸醫學的歷史脈絡與演進（可於台大圖書館或相關學術資料庫搜尋）。</p>
+                        <a href="https://www.google.com/search?q=%E5%8F%B0%E7%81%A3%E7%8D%B8%E9%86%AB%E5%AD%B8%E7%99%BC%E5%B1%95%E5%8F%B2%E7%95%A5+%E8%B3%B4%E7%A7%80%E7%A9%97" target="_blank" rel="noopener noreferrer" class="reference-link">搜尋相關文獻</a>
+                    </div>
+                    <div class="reference-item">
+                        <p class="reference-title">動物福利概論與倫理</p>
+                        <p class="reference-source">來源：農業部動物保護資訊網</p>
+                        <p class="reference-type">政府資訊/教材</p>
+                        <p class="reference-description">說明：提供動物福利的基本概念、五大自由以及相關倫理考量。</p>
+                        <a href="https://animal.moa.gov.tw/Frontend/Knowledges/Introduction" target="_blank" rel="noopener noreferrer" class="reference-link">動保資訊網 - 動物福利</a>
+                    </div>
+                     <div class="reference-item">
+                        <p class="reference-title">獸醫倫理學：理論與實務</p>
+                        <p class="reference-source">來源：YouTube - 各大學獸醫倫理學相關開放式課程或講座 (搜尋關鍵字：獸醫倫理、Veterinary Ethics)</p>
+                        <p class="reference-type">教學影片</p>
+                        <p class="reference-description">說明：透過影片了解獸醫倫理的實際案例與討論。</p>
+                        <a href="https://www.youtube.com/results?search_query=%E7%8D%B8%E9%86%AB%E5%80%AB%E7%90%86" target="_blank" rel="noopener noreferrer" class="reference-link">YouTube搜尋獸醫倫理</a>
                     </div>
                 </section>
 
@@ -659,65 +690,123 @@
                     <h3 class="text-xl font-semibold text-subtitle-accent mb-4">第二個月：伴侶動物醫學與臨床實務初探</h3>
                      <div class="reference-item">
                         <p class="reference-title">犬貓核心疫苗與非核心疫苗注射指南</p>
-                        <p class="reference-source">世界小動物獸醫師協會 (WSAVA) - 疫苗接種指南小組 (VGG)</p>
+                        <p class="reference-source">來源：世界小動物獸醫師協會 (WSAVA) - 疫苗接種指南小組 (VGG) (2015)</p>
+                        <p class="reference-type">專業指引 (PDF)</p>
+                        <p class="reference-description">說明：了解國際通用的犬貓疫苗接種建議與原則，為伴侶動物預防醫學的基礎。</p>
                         <a href="https://wsava.org/wp-content/uploads/2020/01/WSAVA-vaccination-guidelines-2015-Chinese-Traditional.pdf" target="_blank" rel="noopener noreferrer" class="reference-link">2015年犬貓疫苗注射指南 (繁體中文PDF)</a>
-                        <p class="text-xs text-gray-500 mt-1">說明：了解國際通用的犬貓疫苗接種建議與原則。</p>
                     </div>
                     <div class="reference-item">
-                        <p class="reference-title">寵物食品營養資訊</p>
-                        <p class="reference-source">行政院農業委員會動物保護資訊網 (現為農業部)</p>
-                        <a href="https://animal.moa.gov.tw/Frontend/Knowledges/PetFood" target="_blank" rel="noopener noreferrer" class="reference-link">寵物食品專區</a>
-                        <p class="text-xs text-gray-500 mt-1">說明：提供寵物食品選擇、標示及相關法規資訊。</p>
+                        <p class="reference-title">寵物食品營養標示及宣傳廣告涉及不實誇張或易生誤解認定原則</p>
+                        <p class="reference-source">來源：農業部</p>
+                        <p class="reference-type">政府法規/公告</p>
+                        <p class="reference-description">說明：了解台灣對於寵物食品營養標示的規定，有助於理解寵物營養學的實務應用。</p>
+                        <a href="https://www.coa.gov.tw/ws.php?id=2506300" target="_blank" rel="noopener noreferrer" class="reference-link">農業部相關公告</a>
                     </div>
                      <div class="reference-item">
-                        <p class="reference-title">國立臺灣大學獸醫專業學院 - 教學資源</p>
-                        <p class="reference-source">國立臺灣大學</p>
-                        <a href="https://www.vm.ntu.edu.tw/web/resource/list.jsp?lang=tw&type=EDUCATION" target="_blank" rel="noopener noreferrer" class="reference-link">教學資源列表</a>
-                        <p class="text-xs text-gray-500 mt-1">說明：可查找伴侶動物相關的衛教文章或公開課程講義。</p>
+                        <p class="reference-title">犬學教育系列影片</p>
+                        <p class="reference-source">來源：YouTube - 動物的事ETtoday頻道 (或其他專業獸醫頻道)</p>
+                        <p class="reference-type">教學影片</p>
+                        <p class="reference-description">說明：搜尋關於犬隻常見疾病、行為、照護的科普影片，例如犬心絲蟲預防、幼犬照護等。</p>
+                        <a href="https://www.youtube.com/playlist?list=PLrM2KqW3n6mZ8X2L2K0L8j3xP_9y8aZz" target="_blank" rel="noopener noreferrer" class="reference-link">參考頻道範例 (需自行搜尋特定主題)</a>
+                    </div>
+                    <div class="reference-item">
+                        <p class="reference-title">貓咪常見疾病與照護</p>
+                        <p class="reference-source">來源：臺北市動物保護處 - 我要認養專區 - 寵物照護</p>
+                        <p class="reference-type">政府衛教資訊</p>
+                        <p class="reference-description">說明：提供貓咪飼養、健康照護、常見疾病等實用資訊。</p>
+                        <a href="https://www.tcapo.gov.taipei/News_Content.aspx?n=CB59F523CA2BA14D&sms=C9E2E2E9799862DE&s=7D4A8A0E0C8C8A8A" target="_blank" rel="noopener noreferrer" class="reference-link">北市動保處貓咪照護</a>
+                    </div>
+                     <div class="reference-item">
+                        <p class="reference-title">獸醫診斷學圖譜或線上資源</p>
+                        <p class="reference-source">來源：各大學獸醫學院網站 (如台大、中興、嘉大、屏科大) 或獸醫教科書出版社網站</p>
+                        <p class="reference-type">學術/教學資源</p>
+                        <p class="reference-description">說明：搜尋關於動物解剖、X光影像判讀、血液抹片等視覺化學習資源，理解診斷工具的應用。</p>
+                        <a href="https://www.vm.ntu.edu.tw/web/resource/list.jsp?lang=tw&type=EDUCATION" target="_blank" rel="noopener noreferrer" class="reference-link">台大獸醫學院教學資源範例</a>
                     </div>
                 </section>
 
                 <section class="mb-6">
                     <h3 class="text-xl font-semibold text-subtitle-accent mb-4">第三個月：經濟動物、野生動物與公共衛生獸醫學</h3>
                     <div class="reference-item">
-                        <p class="reference-title">農業部動植物防疫檢疫署 - 業務主題</p>
-                        <p class="reference-source">農業部動植物防疫檢疫署 (BAPHIQ)</p>
-                        <a href="https://www.baphiq.gov.tw/theme_list.php?theme=animal_epidemic" target="_blank" rel="noopener noreferrer" class="reference-link">動物防疫主題</a>
-                        <p class="text-xs text-gray-500 mt-1">說明：提供台灣動物傳染病、人畜共通疾病的最新疫情、法規及防治資訊。</p>
+                        <p class="reference-title">動物傳染病與防疫</p>
+                        <p class="reference-source">來源：農業部動植物防疫檢疫署 (BAPHIQ)</p>
+                        <p class="reference-type">政府資訊/報告</p>
+                        <p class="reference-description">說明：提供台灣動物傳染病（包括經濟動物、禽鳥等）的最新疫情、法規及防治措施。</p>
+                        <a href="https://www.baphiq.gov.tw/theme_list.php?theme=animal_epidemic" target="_blank" rel="noopener noreferrer" class="reference-link">動植物防疫檢疫署 - 動物防疫主題</a>
                     </div>
                     <div class="reference-item">
-                        <p class="reference-title">特有生物研究保育中心 - 研究成果</p>
-                        <p class="reference-source">農業部生物多樣性研究所特有生物研究保育中心 (TESRI)</p>
-                        <a href="https://www.tesri.gov.tw/A7_1" target="_blank" rel="noopener noreferrer" class="reference-link">研究出版品</a>
-                        <p class="text-xs text-gray-500 mt-1">說明：可查找關於台灣野生動物疾病、救傷及保育研究的報告與論文。</p>
+                        <p class="reference-title">野生動物急救站年報或案例分享</p>
+                        <p class="reference-source">來源：農業部生物多樣性研究所特有生物研究保育中心 (TESRI)</p>
+                        <p class="reference-type">研究報告/案例</p>
+                        <p class="reference-description">說明：了解台灣野生動物救傷的實際案例、獸醫師在其中的角色與挑戰。</p>
+                        <a href="https://www.tesri.gov.tw/A7_1_1?parent_id=101" target="_blank" rel="noopener noreferrer" class="reference-link">特生中心 - 野生動物急救站</a>
                     </div>
                     <div class="reference-item">
-                        <p class="reference-title">世界動物衛生組織 (WOAH) - 動物疾病資訊</p>
-                        <p class="reference-source">WOAH (World Organisation for Animal Health)</p>
-                        <a href="https://www.woah.org/en/what-we-do/animal-health-and-welfare/animal-diseases/" target="_blank" rel="noopener noreferrer" class="reference-link">Animal Diseases (英文，可利用翻譯工具)</a>
-                        <p class="text-xs text-gray-500 mt-1">說明：提供全球重要動物疾病的資訊卡，了解國際關注的動物健康議題。</p>
+                        <p class="reference-title">人畜共通傳染病防治</p>
+                        <p class="reference-source">來源：衛生福利部疾病管制署</p>
+                        <p class="reference-type">政府資訊/衛教</p>
+                        <p class="reference-description">說明：提供各種人畜共通疾病的介紹、預防方法，突顯獸醫在公衛的角色。</p>
+                        <a href="https://www.cdc.gov.tw/Disease/Index/Zoonotic" target="_blank" rel="noopener noreferrer" class="reference-link">疾管署 - 人畜共通傳染病</a>
+                    </div>
+                    <div class="reference-item">
+                        <p class="reference-title">認識禽流感</p>
+                        <p class="reference-source">來源：YouTube - 公視新聞網</p>
+                        <p class="reference-type">新聞專題影片</p>
+                        <p class="reference-description">說明：透過新聞專題了解禽流感的影響與防疫措施。</p>
+                        <a href="https://www.youtube.com/watch?v=gR0g8yq1Q2s" target="_blank" rel="noopener noreferrer" class="reference-link">公視 PNN 禽流感專題</a>
+                    </div>
+                     <div class="reference-item">
+                        <p class="reference-title">水產動物疾病與健康管理</p>
+                        <p class="reference-source">來源：農業部水產試驗所</p>
+                        <p class="reference-type">研究/技術報告</p>
+                        <p class="reference-description">說明：搜尋水產試驗所網站，了解台灣水產養殖常見疾病與健康管理技術。</p>
+                        <a href="https://www.tfrin.gov.tw/Service/Ext" target="_blank" rel="noopener noreferrer" class="reference-link">水產試驗所 - 技術服務與出版品</a>
                     </div>
                 </section>
 
                  <section>
                     <h3 class="text-xl font-semibold text-subtitle-accent mb-4">第四個月：獸醫學特殊領域、研究與未來展望</h3>
                     <div class="reference-item">
-                        <p class="reference-title">實驗動物人道管理</p>
-                        <p class="reference-source">行政院農業委員會 - 動物保護資訊網 (現為農業部)</p>
-                        <a href="https://animal.moa.gov.tw/Frontend/Knowledges/ExperimentalAnimal" target="_blank" rel="noopener noreferrer" class="reference-link">實驗動物專區</a>
-                        <p class="text-xs text-gray-500 mt-1">說明：了解台灣實驗動物倫理、法規及3R原則的相關資訊。</p>
+                        <p class="reference-title">實驗動物人道管理與3R原則</p>
+                        <p class="reference-source">來源：農業部動物保護資訊網 - 實驗動物</p>
+                        <p class="reference-type">政府資訊/指引</p>
+                        <p class="reference-description">說明：了解台灣實驗動物倫理、法規及3R原則（取代、減量、精緻化）的相關資訊。</p>
+                        <a href="https://animal.moa.gov.tw/Frontend/Knowledges/ExperimentalAnimal" target="_blank" rel="noopener noreferrer" class="reference-link">動保資訊網 - 實驗動物專區</a>
                     </div>
                     <div class="reference-item">
-                        <p class="reference-title">獸醫最新研究趨勢 (可透過關鍵字搜尋)</p>
-                        <p class="reference-source">Google Scholar (學術搜尋)</p>
-                        <a href="https://scholar.google.com/" target="_blank" rel="noopener noreferrer" class="reference-link">Google Scholar</a>
-                        <p class="text-xs text-gray-500 mt-1">說明：使用「獸醫 人工智慧」、「獸醫 基因體學」、「veterinary telemedicine」等關鍵字搜尋，了解新興科技在獸醫領域的應用研究摘要。</p>
+                        <p class="reference-title">獸醫病理學概論 (課程或講座)</p>
+                        <p class="reference-source">來源：YouTube (搜尋關鍵字：獸醫病理學、Veterinary Pathology lecture)</p>
+                        <p class="reference-type">教學影片</p>
+                        <p class="reference-description">說明：尋找大學獸醫系所的開放式課程或講座影片，初步了解病理學的範疇與方法。</p>
+                        <a href="https://www.youtube.com/results?search_query=%E7%8D%B8%E9%86%AB%E7%97%85%E7%90%86%E5%AD%B8" target="_blank" rel="noopener noreferrer" class="reference-link">YouTube搜尋獸醫病理學</a>
                     </div>
                      <div class="reference-item">
-                        <p class="reference-title">國立中興大學獸醫學院 - 研究成果</p>
-                        <p class="reference-source">國立中興大學</p>
-                        <a href="https://www.vm.nchu.edu.tw/page/research_results/index.aspx?kind=118" target="_blank" rel="noopener noreferrer" class="reference-link">研究成果列表</a>
-                        <p class="text-xs text-gray-500 mt-1">說明：可查找獸醫病理、藥理、分子生物等特殊領域的研究論文或摘要。</p>
+                        <p class="reference-title">抗微生物藥物抗藥性 (AMR) 與獸醫的責任</p>
+                        <p class="reference-source">來源：世界動物衛生組織 (WOAH)</p>
+                        <p class="reference-type">國際組織資訊</p>
+                        <p class="reference-description">說明：了解AMR的全球威脅及獸醫師在謹慎用藥、防止抗藥性擴散的角色 (可搜尋WOAH AMR相關頁面)。</p>
+                        <a href="https://www.woah.org/en/what-we-do/global-initiatives/antimicrobial-resistance/" target="_blank" rel="noopener noreferrer" class="reference-link">WOAH - Antimicrobial Resistance (英文)</a>
+                    </div>
+                     <div class="reference-item">
+                        <p class="reference-title">獸醫法醫學簡介</p>
+                        <p class="reference-source">來源：國際獸醫法醫科學協會 (IVFSA) 或相關學術文章摘要</p>
+                        <p class="reference-type">專業組織/學術資源</p>
+                        <p class="reference-description">說明：初步了解獸醫法醫學的定義、範疇及在動物虐待案件調查中的應用。</p>
+                        <a href="https://www.ivfsa.org/" target="_blank" rel="noopener noreferrer" class="reference-link">IVFSA 官網 (英文)</a>
+                    </div>
+                    <div class="reference-item">
+                        <p class="reference-title">新興科技於獸醫學之應用</p>
+                        <p class="reference-source">來源：台灣獸醫誌、相關研討會論文集或新聞報導</p>
+                        <p class="reference-type">學術期刊/會議資料</p>
+                        <p class="reference-description">說明：搜尋「獸醫 人工智慧」、「獸醫 遠距醫療」、「動物穿戴裝置」等關鍵字，了解科技發展對獸醫領域的影響。</p>
+                        <a href="https://scholar.google.com/scholar?q=%E6%96%B0%E8%88%88%E7%A7%91%E6%8A%80+%E7%8D%B8%E9%86%AB%E5%AD%B8%E6%87%89%E7%94%A8" target="_blank" rel="noopener noreferrer" class="reference-link">Google Scholar 搜尋範例</a>
+                    </div>
+                     <div class="reference-item">
+                        <p class="reference-title">國立屏東科技大學獸醫學院研究成果</p>
+                        <p class="reference-source">來源：國立屏東科技大學</p>
+                        <p class="reference-type">學術機構資源</p>
+                        <p class="reference-description">說明：瀏覽學院網站，了解其在熱帶動物醫學、大動物醫學等領域的研究特色。</p>
+                        <a href="https://svm.npust.edu.tw/p/404-1032-101058.php?Lang=zh-tw" target="_blank" rel="noopener noreferrer" class="reference-link">屏科大獸醫學院研究領域</a>
                     </div>
                 </section>
                 <p class="mt-6 text-sm text-gray-400 italic">提醒：部分學術期刊論文可能需要透過學校圖書館資源或付費才能獲取全文。此處提供的連結主要為公開資訊或摘要頁面，請善用學校或公共圖書館的學術資料庫資源進行更深入的探索。</p>
